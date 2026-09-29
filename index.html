@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jury maison — Star Academy 2026</title>
+<meta name="theme-color" content="#3B1E6E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%AD%90%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233B1E6E%22/%3E%3Ctext x=%2250%22 y=%2270%22 font-size=%2260%22 text-anchor=%22middle%22%3E%E2%AD%90%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1FA; --surface:#FFFFFF; --surface2:#ECE5F8; --ink:#1F1438; --muted:#6A5F82; --line:#DCD2EE;
+  --violet:#5B2FB0; --violet2:#7A4FD0; --on-violet:#FFFFFF; --gold:#A87A06; --gold-bright:#E3B23C; --gold-soft:#F8EBC4;
+  --good:#1D7A4A; --good-bg:#DDF2E5; --ok:#5E7A12; --ok-bg:#ECF3D6; --mid:#8A5A00; --mid-bg:#FBEBC8; --low:#A8281F; --low-bg:#F9DEDB;
+  --shadow:0 1px 0 rgba(31,20,56,.06), 0 8px 24px -12px rgba(31,20,56,.25);
+  --display:"Unbounded", "Arial Black", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#130B25; --surface:#1D1336; --surface2:#281B49; --ink:#F2EDFF; --muted:#A596C6; --line:#3A2B62;
+    --violet:#9A6CFF; --violet2:#B08BFF; --on-violet:#140B28; --gold:#F2C14E; --gold-bright:#F2C14E; --gold-soft:#3A2D0E;
+    --good:#7BE0A6; --good-bg:#153A28; --ok:#C4E07A; --ok-bg:#2C3614; --mid:#F5C55E; --mid-bg:#3B2C0C; --low:#FF9A90; --low-bg:#43191A;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#130B25; --surface:#1D1336; --surface2:#281B49; --ink:#F2EDFF; --muted:#A596C6; --line:#3A2B62;
+  --violet:#9A6CFF; --violet2:#B08BFF; --on-violet:#140B28; --gold:#F2C14E; --gold-bright:#F2C14E; --gold-soft:#3A2D0E;
+  --good:#7BE0A6; --good-bg:#153A28; --ok:#C4E07A; --ok-bg:#2C3614; --mid:#F5C55E; --mid-bg:#3B2C0C; --low:#FF9A90; --low-bg:#43191A;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold-bright);outline-offset:2px;border-radius:6px}
+img{max-width:100%}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 110px}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.brand .star{color:var(--gold-bright);font-size:18px}
+.brand small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:13px}
+.who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.who img{width:28px;height:28px;border-radius:50%}
+.status{font-size:12px;color:var(--muted)}
+
+/* tabs */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tabs button{background:none;border:0;padding:10px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}
+.tabs button svg{width:22px;height:22px}
+.tabs button[aria-current="page"]{color:var(--violet)}
+.tabs button[aria-current="page"] svg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--violet) 40%,transparent))}
+
+/* prime strip */
+.strip{display:flex;gap:6px;overflow-x:auto;padding:14px 0 6px;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.chip-p{flex:0 0 auto;min-width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:14px;position:relative}
+.chip-p.has::after{content:"";position:absolute;bottom:5px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--gold-bright)}
+.chip-p[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:var(--on-violet)}
+
+/* marquee */
+.marquee{padding:18px 0 8px}
+.marquee h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,11vw,76px);line-height:.95;margin:0;letter-spacing:-.03em;color:var(--ink)}
+.marquee h1 span{color:var(--gold-bright);-webkit-text-stroke:0}
+.meta{color:var(--muted);margin:8px 0 0;font-size:15px}
+.meta b{color:var(--ink);font-weight:600}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:10px 14px;font-weight:600;font-size:14px}
+.btn.primary{background:var(--violet);border-color:var(--violet);color:var(--on-violet)}
+.btn.gold{background:var(--gold-bright);border-color:var(--gold-bright);color:#1F1438}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--low);border-color:color-mix(in srgb,var(--low) 40%,var(--line))}
+.btn.block{width:100%;justify-content:center;padding:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+h2.sec{font-family:var(--display);font-size:18px;font-weight:700;margin:26px 0 10px;letter-spacing:-.01em}
+.hint{color:var(--muted);font-size:14px;margin:0 0 12px}
+
+/* prestation cards */
+.list{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.presta{display:grid;grid-template-columns:36px 1fr auto;gap:12px;padding:14px;align-items:center;text-align:left;width:100%;border:0;background:none}
+.ord{font-family:var(--display);font-weight:700;font-size:20px;color:var(--muted);text-align:center}
+.p-title{font-weight:700;font-size:16px;line-height:1.25}
+.p-sub{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.p-sub .guest{color:var(--gold);font-weight:600}
+.names{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.nm{font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:var(--surface2)}
+.nm.done{background:color-mix(in srgb,var(--violet) 18%,var(--surface2));color:var(--violet)}
+.type{font-size:11px;font-weight:700;color:var(--violet);margin-left:6px}
+.scores{display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:64px}
+.card-edit{display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding:4px 8px}
+.link{background:none;border:0;color:var(--muted);font-size:13px;font-weight:600;padding:6px 8px}
+
+.note{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 8px;border-radius:9px;font-weight:800;font-family:var(--display);font-size:14px;background:var(--surface2);color:var(--muted)}
+.note.t4{background:var(--good-bg);color:var(--good)} .note.t3{background:var(--ok-bg);color:var(--ok)}
+.note.t2{background:var(--mid-bg);color:var(--mid)} .note.t1{background:var(--low-bg);color:var(--low)}
+.note.big{height:auto;font-size:28px;padding:8px 12px;border-radius:14px}
+.lbl{font-size:11px;color:var(--muted);font-weight:600}
+.todo{font-size:12px;font-weight:700;color:var(--violet);border:1.5px dashed var(--violet);border-radius:9px;padding:5px 8px}
+
+.empty{text-align:center;padding:36px 20px;border:1.5px dashed var(--line);border-radius:16px;color:var(--muted)}
+.empty p{margin:0 0 14px}
+.banner{background:var(--gold-soft);color:var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;margin-top:12px}
+
+/* ranking */
+.filter{display:flex;align-items:center;gap:8px;margin:16px 0 4px;flex-wrap:wrap}
+.filter select{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px;font-weight:600}
+.rank{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:12px 14px;width:100%;text-align:left;border:0;background:none}
+.rk{font-family:var(--display);font-weight:800;font-size:18px;text-align:center;color:var(--muted)}
+.rk.r1{color:var(--gold-bright)}
+.r-name{font-weight:700}
+.r-bars{display:flex;gap:10px;margin-top:6px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.r-bars i{font-style:normal;font-weight:700;color:var(--ink)}
+.r-right{display:flex;align-items:center;gap:10px}
+.spark{width:78px;height:28px}
+@media (max-width:480px){.spark{display:none}.r-bars{gap:2px 10px}}
+.prog{font-size:12px;font-weight:700}
+.prog.up{color:var(--good)} .prog.down{color:var(--low)}
+.badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--surface2);color:var(--muted);margin-left:6px}
+.badge.out{background:var(--low-bg);color:var(--low)} .badge.win{background:var(--gold-soft);color:var(--gold)}
+
+.nightrow{padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.nightnum{font-family:var(--display);font-weight:800;font-size:26px;width:48px;text-align:center;color:var(--violet)}
+.facts{font-size:13px;color:var(--muted);display:grid;gap:2px}
+.facts b{color:var(--ink);font-weight:600}
+
+.juror{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:12px 14px}
+.juror img{width:40px;height:40px;border-radius:50%}
+
+.settings-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border:0;background:none;width:100%;text-align:left;border-bottom:1px solid var(--line)}
+.settings-row:last-child{border-bottom:0}
+.settings-row .grow{flex:1;font-weight:600}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,5,25,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.scrim[hidden]{display:none}
+.sheet{background:var(--surface);width:100%;max-width:640px;max-height:94%;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(0,0,0,.3);padding-bottom:env(safe-area-inset-bottom,0px);animation:up .22s ease-out}
+@media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:22px;max-height:88%}}
+@keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.sheet{animation:none}}
+.sh-head{padding:16px 18px 10px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line)}
+.sh-head h3{margin:0;font-family:var(--display);font-size:18px;font-weight:700;line-height:1.2}
+.sh-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.x{margin-left:auto;background:var(--surface2);border:0;width:36px;height:36px;border-radius:50%;font-size:18px;flex:0 0 auto}
+.sh-body{padding:14px 18px;overflow-y:auto;flex:1}
+.sh-foot{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px}
+.sh-foot .btn{flex:1;justify-content:center}
+
+.seg{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 0;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-weight:600;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--violet);color:var(--on-violet);border-color:var(--violet)}
+.seg button .ck{color:var(--gold-bright);margin-left:4px}
+
+.spot{display:flex;align-items:center;gap:14px;background:var(--surface2);border-radius:16px;padding:12px 14px;margin-bottom:6px}
+.ring{width:74px;height:74px;flex:0 0 auto;position:relative}
+.ring svg{width:74px;height:74px;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:22px;font-weight:800}
+.spot .who2{font-weight:700;font-size:17px}
+.spot .subs{display:flex;gap:10px;font-size:12px;color:var(--muted);margin-top:4px;flex-wrap:wrap}
+.spot .subs i{font-style:normal;font-weight:700;color:var(--ink)}
+
+.fam{margin-top:16px}
+.fam h4{margin:0 0 4px;font-size:14px;font-weight:700;color:var(--violet)}
+.crit{display:grid;grid-template-columns:1fr 54px;gap:4px 10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.crit:last-child{border-bottom:0}
+.crit label{font-size:14px;font-weight:500}
+.crit .val{grid-row:span 2;align-self:center;border:0;border-radius:10px;height:40px;font-family:var(--display);font-weight:700;font-size:15px;background:var(--surface2);color:var(--muted)}
+.crit .val.set{background:var(--violet);color:var(--on-violet)}
+input[type=range]{width:100%;accent-color:var(--violet);height:28px;margin:0}
+input[type=range].unset{opacity:.35}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field span{font-size:13px;font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:11px 12px;width:100%}
+.field textarea{min-height:70px;resize:vertical}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-weight:600;font-size:14px}
+.pick button[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:var(--on-violet)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:var(--surface2);border-radius:12px;padding:10px;text-align:center}
+.kpi b{display:block;font-family:var(--display);font-size:18px}
+.kpi span{font-size:11px;color:var(--muted);font-weight:600}
+.bars{width:100%;height:auto;display:block}
+.opinion{background:var(--surface2);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:14px}
+.opinion b{display:block;font-size:12px;color:var(--muted)}
+.toast{white-space:nowrap;position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.tile b{font-weight:700;font-size:15px;line-height:1.25;overflow-wrap:anywhere}
+.tile.up{border-left:4px solid var(--good)} .tile.down{border-left:4px solid var(--low)} .tile.fav{border-left:4px solid var(--gold-bright)}
+.seg-in{display:inline-flex;gap:4px;background:var(--surface2);padding:4px;border-radius:12px;margin-bottom:10px}
+.seg-in button{border:0;background:none;padding:6px 12px;border-radius:9px;font-weight:600;font-size:13px}
+.seg-in button[aria-pressed="true"]{background:var(--surface);box-shadow:var(--shadow);color:var(--violet)}
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.mx{border-collapse:collapse;width:100%;font-size:14px}
+.mx th,.mx td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.mx th{font-size:12px;color:var(--muted);font-weight:700}
+.mx th:first-child,.mx td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);white-space:normal;min-width:130px;max-width:170px;font-weight:600;z-index:1}
+.mx td:first-child small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.mx tr:last-child td{border-bottom:0}
+.mx tr.soir td{background:var(--surface2)}
+.mx .note{min-width:40px;height:26px;font-size:12px}
+.mx td.all{background:color-mix(in srgb,var(--gold-bright) 12%,var(--surface))}
+.mx .dash{color:var(--muted)}
+.nomi{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 14px;align-items:center}
+.verdict{background:var(--violet);color:var(--on-violet);border-radius:14px;padding:12px 14px;margin-top:10px;line-height:1.5}
+.verdict b{font-weight:800}
+.bilan{padding:12px 14px}
+.bl-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.bl-head img{width:30px;height:30px;border-radius:50%}
+.com{margin:8px 0 0;font-size:14px;background:var(--surface2);border-radius:10px;padding:8px 10px}
+.pick.vote button{display:flex;flex-direction:column;align-items:flex-start;border-radius:12px;padding:10px 14px}
+.pick.vote button small{font-weight:500;font-size:12px;opacity:.8}
+button.nightnum{background:none;border:0;padding:0}
+.av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;font-family:var(--display);font-size:13px;flex:0 0 auto}
+.me-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 3px;font-weight:600;font-size:13px}
+.juror .av{font-size:16px}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brand"><span class="star" aria-hidden="true">★</span>Jury maison <small>Star Ac 2026</small></div>
+  <div class="who" id="who"></div>
+</div></header>
+
+<main class="wrap" id="view" aria-live="polite"></main>
+
+<nav class="tabs" aria-label="Sections"><div class="tabs-in" id="tabs"></div></nav>
+<div class="scrim" id="scrim" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- ============================================================
+     CONFIGURATION : colle ici la configuration de ton projet Firebase
+     (Console Firebase > Paramètres du projet > Tes applications > Config)
+     ============================================================ -->
+<script>
+window.JURY_CONFIG = {
+  firebase: {
+    apiKey: "AIzaSyAmgRfNXod7MyAMuciOiPU3LXk3SjmG6h8",
+    authDomain: "jury-maison.firebaseapp.com",
+    projectId: "jury-maison",
+    storageBucket: "jury-maison.firebasestorage.app",
+    messagingSenderId: "852397981276",
+    appId: "1:852397981276:web:706ac1be09b51289dc3099"
+  },
+  // Code de la famille : ne pas modifier (il doit correspondre aux règles Firestore)
+  familyCode: "jury-rid6bdtq0h"
+};
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- Référentiels ---------- */
+const CRITS = [["ch","Chant"],["ps","Présence scénique"],["da","Danse"]];
+const TYPES = ["Solo","Duo","Trio","Groupe","Tableau collectif"];
+const STATUTS = ["En lice","Nommé(e)","Éliminé(e)","Finaliste","Gagnant(e)"];
+const LOCAL_KEY = "starac-jury-2026-v2";
+const DEF_PARAMS = {wC:0.5,wP:0.3,wD:0.2,nb:16};
+const emptyMine = () => ({i:{},e:{},p:{},c:{},n:{}});
+
+/* ---------- État ---------- */
+const S = {
+  mode:"loading", db:null, user:null,
+  me:{id:null,name:"",avatarUrl:"",color:""}, canWrite:true,
+  eleves:[], params:Object.assign({},DEF_PARAMS), primes:{}, prestas:[], notes:{},
+  mine:emptyMine(), mineLoaded:false,
+  jurors:{}, notesRaw:{}, jurorsLoaded:false, dbError:"", tab:"prime", prime:1, filter:"all", mx:"presta"
+};
+
+/* ---------- Utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = v => typeof v==="number" && isFinite(v);
+const avg = a => { const v=a.filter(num); return v.length ? v.reduce((s,x)=>s+x,0)/v.length : null; };
+const fmt = v => num(v) ? v.toFixed(1).replace(".",",") : "—";
+const tier = v => !num(v) ? "" : v>=8 ? "t4" : v>=6.5 ? "t3" : v>=5 ? "t2" : "t1";
+const noteEl = (v,cls="") => `<span class="note ${tier(v)} ${cls}">${fmt(v)}</span>`;
+const clone = o => JSON.parse(JSON.stringify(o||{}));
+const eleveName = id => (S.eleves.find(e=>e.id===id)||{}).name || "?";
+const prestaById = id => S.prestas.find(p=>p.id===id);
+const uid = () => Math.random().toString(36).slice(2,10);
+let toastT;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("on"),2200); }
+const prestasOf = n => S.prestas.filter(p=>p.prime===n).sort((a,b)=>(a.ordre||0)-(b.ordre||0));
+const allIds = () => Object.keys(S.notes);
+const plural = (n,w) => `${n} ${w}${n>1?"s":""}`;
+
+/* ---------- Calculs ---------- */
+function weighted(ch,ps,da){
+  const w=S.params; let n=0,d=0;
+  [[ch,+w.wC],[ps,+w.wP],[da,+w.wD]].forEach(([v,k])=>{ if(num(v)&&k>0){n+=v*k;d+=k;} });
+  return d ? n/d : null;
+}
+function subs(c){
+  if(!c) return null;
+  const ch=num(c.ch)?c.ch:null, ps=num(c.ps)?c.ps:null, da=num(c.da)?c.da:null;
+  const gl=weighted(ch,ps,da);
+  return gl==null ? null : {ch,ps,da,gl};
+}
+function raterIds(){ const ids=allIds(); return S.filter==="all" ? ids : ids.filter(i=>i===S.filter); }
+function notesOf(r){ return r===S.me.id ? S.mine : (S.notes[r]||{}); }
+function indivFor(r,pid,eid){ const n=notesOf(r); return subs(n.i && n.i[pid] && n.i[pid][eid]); }
+function ensFor(r,pid){ const n=notesOf(r); const s=subs(n.e && n.e[pid]); return s ? s.gl : null; }
+function prestaFor(r,p){
+  if(p.eleves && p.eleves.length>=2){ const e=ensFor(r,p.id); if(num(e)) return e; }
+  return avg((p.eleves||[]).map(e=>{const s=indivFor(r,p.id,e); return s&&s.gl;}));
+}
+function bilanOf(r,n){ const x=notesOf(r); return (x.p && x.p[n]) || null; }
+function primeFor(r,n){ const b=bilanOf(r,n); return b && num(b.note) ? b.note : null; }
+function nomOf(r,n){ const x=notesOf(r); return (x.n && x.n[n]) || null; }
+function nomFor(r,n,eid){ const o=nomOf(r,n); return subs(o && o.e && o.e[eid]); }
+function voteOf(r,n){ const o=nomOf(r,n); return o ? o.part||null : null; }
+
+function aggIndiv(pid,eid,ids){
+  const L=(ids||raterIds()).map(r=>indivFor(r,pid,eid)).filter(Boolean);
+  if(!L.length) return null;
+  return {ch:avg(L.map(s=>s.ch)),ps:avg(L.map(s=>s.ps)),da:avg(L.map(s=>s.da)),gl:avg(L.map(s=>s.gl)),n:L.length};
+}
+function aggPresta(p,ids){ return avg((ids||raterIds()).map(r=>prestaFor(r,p))); }
+function aggPrime(n,ids){ return avg((ids||raterIds()).map(r=>primeFor(r,n))); }
+
+function eleveStats(eid){
+  const rows=[];
+  S.prestas.filter(p=>(p.eleves||[]).includes(eid)).sort((a,b)=>a.prime-b.prime||(a.ordre||0)-(b.ordre||0)).forEach(p=>{
+    const a=aggIndiv(p.id,eid); if(a) rows.push({p,a});
+  });
+  const per={};
+  rows.forEach(({p,a})=>{ (per[p.prime]=per[p.prime]||[]).push(a.gl); });
+  const perPrime={}; Object.keys(per).forEach(k=>perPrime[k]=avg(per[k]));
+  const keys=Object.keys(perPrime).map(Number).sort((a,b)=>a-b);
+  const prog = keys.length>=2 ? perPrime[keys[keys.length-1]]-perPrime[keys[0]] : null;
+  const vals=Object.values(perPrime);
+  return {rows,n:rows.length,gl:avg(rows.map(x=>x.a.gl)),ch:avg(rows.map(x=>x.a.ch)),ps:avg(rows.map(x=>x.a.ps)),da:avg(rows.map(x=>x.a.da)),perPrime,prog,best:vals.length?Math.max(...vals):null};
+}
+function ranking(){
+  const L=S.eleves.map(e=>({e,s:eleveStats(e.id)}));
+  const rated=L.filter(x=>num(x.s.gl)).sort((a,b)=>b.s.gl-a.s.gl);
+  rated.forEach((x,i)=>x.rank=i+1);
+  return rated.concat(L.filter(x=>!num(x.s.gl)));
+}
+function tally(o){ const ks=Object.keys(o); if(!ks.length) return null; const c=Math.max(...ks.map(k=>o[k])); return {ks:ks.filter(k=>o[k]===c),c}; }
+function primeSummary(n,ids){
+  ids=ids||allIds(); const list=prestasOf(n);
+  const pr=list.map(p=>({p,v:aggPresta(p,ids)})).filter(x=>num(x.v)).sort((a,b)=>b.v-a.v);
+  const el={}; list.forEach(p=>(p.eleves||[]).forEach(e=>{ const a=aggIndiv(p.id,e,ids); if(a)(el[e]=el[e]||[]).push(a.gl); }));
+  const els=Object.keys(el).map(e=>({e,v:avg(el[e])})).sort((a,b)=>b.v-a.v);
+  const fe={},fp={};
+  ids.forEach(r=>{ const b=bilanOf(r,n); if(!b) return;
+    if(b.fe && S.eleves.some(x=>x.id===b.fe)) fe[b.fe]=(fe[b.fe]||0)+1;
+    if(b.fp && prestaById(b.fp)) fp[b.fp]=(fp[b.fp]||0)+1; });
+  return {pr,els,bestP:pr[0]||null,worstP:pr.length>1?pr[pr.length-1]:null,bestE:els[0]||null,worstE:els.length>1?els[els.length-1]:null,
+    favE:tally(fe),favP:tally(fp),soiree:aggPrime(n,ids),moy:avg(pr.map(x=>x.v))};
+}
+function nomiSummary(n,ids){
+  ids=ids||allIds(); const pr=S.primes["p"+n]||{}, noms=pr.nommes||[];
+  const rows=noms.map(e=>{
+    const L=ids.map(r=>nomFor(r,n,e)).filter(Boolean);
+    return {e,v:avg(L.map(s=>s.gl)),votes:ids.filter(r=>voteOf(r,n)===e).length,mine:nomFor(S.me.id,n,e)};
+  });
+  const totalVotes=rows.reduce((s,x)=>s+x.votes,0);
+  let verdict=null;
+  if(totalVotes) verdict=rows.slice().sort((a,b)=>b.votes-a.votes||(num(a.v)?a.v:99)-(num(b.v)?b.v:99))[0];
+  else { const r=rows.filter(x=>num(x.v)).sort((a,b)=>a.v-b.v); if(r.length) verdict=r[0]; }
+  return {rows,verdict,totalVotes,myVote:voteOf(S.me.id,n)};
+}
+
+/* ---------- Données : persistance ---------- */
+function persistLocal(){
+  try{ localStorage.setItem(LOCAL_KEY,JSON.stringify({eleves:S.eleves,params:S.params,primes:S.primes,prestas:S.prestas,mine:S.mine})); }catch(e){}
+}
+function loadLocal(){
+  S.me={id:"moi",name:"",avatarUrl:"",color:""};
+  try{
+    const d=JSON.parse(localStorage.getItem(LOCAL_KEY)||"null");
+    if(d){ S.eleves=d.eleves||[]; S.params=Object.assign({},DEF_PARAMS,d.params||{}); S.primes=d.primes||{}; S.prestas=d.prestas||[]; S.mine=Object.assign(emptyMine(),d.mine||{}); }
+  }catch(e){}
+  S.notes={moi:S.mine};
+}
+function writeFailed(e){
+  if(e && e.code==="permission-denied"){ toast("Écriture refusée : vérifie les règles Firestore."); }
+  else if(e && e.code==="resource-exhausted"){ toast("Quota gratuit dépassé pour aujourd'hui."); }
+  else toast("Enregistrement impossible pour le moment, réessaie.");
+}
+async function sharedWrite(fn){
+  if(S.mode!=="online"){ persistLocal(); render(); return true; }
+  try{ await fn(); return true; }
+  catch(e){ if(e&&e.code==="unavailable"){ try{ await new Promise(r=>setTimeout(r,600+Math.random()*600)); await fn(); return true; }catch(e2){ writeFailed(e2); return false; } } writeFailed(e); return false; }
+}
+function saveEleves(list){ S.eleves=list; render(); return sharedWrite(()=>S.db.doc("saison/eleves").set({list})); }
+function saveParams(p){ S.params=Object.assign({},S.params,p); render(); return sharedWrite(()=>S.db.doc("saison/params").set(S.params)); }
+function savePrime(n,data){
+  const cur=S.primes["p"+n]||{}; const next=Object.assign({},cur,data,{num:n}); S.primes["p"+n]=next; render();
+  return sharedWrite(()=>S.db.doc("primes/p"+n).set(next));
+}
+function savePresta(p){
+  if(!p.id) p.id="x"+Date.now().toString(36)+uid();
+  const i=S.prestas.findIndex(x=>x.id===p.id); if(i>=0) S.prestas[i]=p; else S.prestas.push(p); render();
+  const body=Object.assign({},p); delete body.id;
+  return sharedWrite(()=>S.db.collection("prestations").doc(p.id).set(body));
+}
+function deletePresta(id){ S.prestas=S.prestas.filter(x=>x.id!==id); render(); return sharedWrite(()=>S.db.collection("prestations").doc(id).delete()); }
+
+let saveT=null, saving=false, dirty=false, pendingAgain=false;
+function mineChanged(){
+  dirty=true; S.notes[S.me.id]=S.mine;
+  clearTimeout(saveT); saveT=setTimeout(flushMine,700);
+}
+async function flushMine(){
+  if(S.mode!=="online"){ persistLocal(); dirty=false; return; }
+  if(!S.me.id) return;
+  if(saving){ pendingAgain=true; return; }
+  saving=true;
+  const body=clone(S.mine); body.t=Date.now();
+  try{ await S.db.collection("notes").doc(S.me.id).set(body); dirty=false; setStatus("Notes enregistrées"); }
+  catch(e){ if(e&&e.code==="permission-denied"){ toast("Notes refusées : vérifie les règles Firestore."); } else { toast("Notes non enregistrées, nouvel essai…"); pendingAgain=true; } }
+  saving=false;
+  if(pendingAgain){ pendingAgain=false; setTimeout(flushMine,1500); }
+}
+window.addEventListener("beforeunload",()=>{ if(dirty) flushMine(); });
+function setStatus(t){ const s=$("#stat"); if(s){ s.textContent=t; setTimeout(()=>{ if(s.textContent===t) s.textContent=""; },2500); } }
+
+/* ---------- Connexion ---------- */
+const CFG = window.JURY_CONFIG || {};
+const ME_KEY = "jury-me-" + (CFG.familyCode||"x");
+function configured(){ const f=CFG.firebase||{}; return !!(f.apiKey && f.projectId && !/COLLER/.test(f.apiKey+f.projectId) && window.firebase); }
+function start(){
+  if(!configured()){ S.mode="local"; loadLocal(); S.jurors={moi:{name:"Moi"}}; render(); return; }
+  let fs;
+  try{ firebase.initializeApp(CFG.firebase); fs=firebase.firestore(); }
+  catch(e){ S.mode="local"; loadLocal(); S.dbError="La configuration Firebase semble incorrecte."; render(); return; }
+  const base="familles/"+CFG.familyCode+"/";
+  const db={ doc:p=>fs.doc(base+p), collection:p=>fs.collection(base+p) };
+  S.db=db; S.mode="online";
+  let myId=null; try{ myId=localStorage.getItem(ME_KEY); }catch(e){}
+  S.me={id:myId,name:""};
+  const err = e => { S.dbError = e && e.code==="permission-denied" ? "Accès à la base refusé : vérifie les règles Firestore (étape 4 du guide)." : "Connexion à la base impossible pour le moment."; render(); };
+  db.doc("saison/eleves").onSnapshot(s=>{ S.eleves = s.exists ? ((s.data()||{}).list||[]) : []; render(); }, err);
+  db.doc("saison/params").onSnapshot(s=>{ if(s.exists) S.params=Object.assign({},DEF_PARAMS,s.data()); render(); }, err);
+  db.collection("primes").onSnapshot(q=>{ const o={}; q.docs.forEach(d=>o[d.id]=d.data()); S.primes=o; render(); }, err);
+  db.collection("prestations").onSnapshot(q=>{ S.prestas=q.docs.map(d=>Object.assign({id:d.id},d.data())); render(); }, err);
+  db.collection("jurors").onSnapshot(q=>{ const o={}; q.docs.forEach(d=>o[d.id]=d.data()); S.jurors=o; S.jurorsLoaded=true;
+    if(S.me.id && !o[S.me.id]){ /* juré inconnu : on redemande */ } render(); }, err);
+  db.collection("notes").onSnapshot(q=>{
+    const o={}; q.docs.forEach(d=>o[d.id]=d.data());
+    S.notesRaw=o; loadMine(); rebuildNotes(); render();
+  }, err);
+  render();
+}
+function loadMine(){
+  if(S.me.id && !S.mineLoaded && !dirty){
+    const raw=S.notesRaw[S.me.id];
+    S.mine=Object.assign(emptyMine(),clone(raw||{})); delete S.mine.t; S.mineLoaded=true;
+  }
+}
+function rebuildNotes(){
+  const o=Object.assign({},S.notesRaw);
+  if(S.me.id && (o[S.me.id]||dirty)) o[S.me.id]=S.mine;
+  S.notes=o;
+}
+function chooseJuror(id){
+  S.me={id,name:(S.jurors[id]||{}).name||""};
+  try{ localStorage.setItem(ME_KEY,id); }catch(e){}
+  S.mineLoaded=false; dirty=false; loadMine(); rebuildNotes(); render(); window.scrollTo(0,0);
+}
+async function createJuror(name){
+  name=name.trim(); if(!name){ toast("Indique ton prénom."); return; }
+  const exist=Object.keys(S.jurors).find(k=>(S.jurors[k].name||"").toLowerCase()===name.toLowerCase());
+  if(exist){ chooseJuror(exist); return; }
+  const id="j"+Date.now().toString(36)+uid();
+  S.jurors[id]={name};
+  const ok=await sharedWrite(()=>S.db.collection("jurors").doc(id).set({name,t:Date.now()}));
+  if(ok) chooseJuror(id);
+}
+function leaveJuror(){
+  if(dirty) flushMine();
+  try{ localStorage.removeItem(ME_KEY); }catch(e){}
+  S.me={id:null,name:""}; S.mine=emptyMine(); S.mineLoaded=false; rebuildNotes(); render();
+}
+const PALETTE=["#7A4FD0","#C08B0E","#1D7A4A","#C2410C","#0E7490","#BE185D","#4D7C0F","#6D28D9"];
+function jurorColor(id){ let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; return PALETTE[h%PALETTE.length]; }
+function raterName(id){ if(id===S.me.id) return "Toi"; const j=S.jurors[id]; return (j&&j.name)||"Juré·e"; }
+function realName(id){ const j=S.jurors[id]; return (j&&j.name)||"Juré·e"; }
+function raterFirst(id){ return raterName(id).split(" ")[0]; }
+function avatar(id,size){ const n=realName(id); return `<span class="av" style="background:${jurorColor(id)};width:${size||32}px;height:${size||32}px">${esc(n.charAt(0).toUpperCase())}</span>`; }
+function juryOrder(ids){ return ids.slice().sort((a,b)=>(a===S.me.id?-1:b===S.me.id?1:raterName(a).localeCompare(raterName(b)))); }
+
+/* ---------- Rendu ---------- */
+const ICONS = {
+  prime:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>',
+  rank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 20V11M12 20V4M18 20v-6"/></svg>',
+  nights:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>',
+  jury:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.4 2 5 5"/></svg>',
+  set:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'
+};
+const TABS=[["prime","Prime"],["rank","Classement"],["nights","Soirées"],["jury","Jury"],["set","Réglages"]];
+
+function render(){
+  const act=document.activeElement;
+  if(act && $("#view").contains(act) && (act.tagName==="INPUT"||act.tagName==="TEXTAREA")) return;
+  $("#tabs").innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${S.tab===k?'aria-current="page"':""}>${ICONS[k]}<span>${l}</span></button>`).join("");
+  const who=$("#who");
+  if(S.mode==="online" && S.me.id){
+    const key=S.me.id+"|"+realName(S.me.id);
+    if(who.dataset.k!==key){ who.dataset.k=key; who.innerHTML=`<span id="stat" class="status"></span><button class="me-chip" data-tab="set">${avatar(S.me.id,26)}<span>${esc(realName(S.me.id))}</span></button>`; }
+  } else { who.innerHTML=""; who.dataset.k=""; }
+  const v=$("#view");
+  if(S.mode==="loading"){ v.innerHTML=`<div class="empty" style="margin-top:40px"><p>Ouverture du carnet de notes…</p></div>`; return; }
+  if(S.mode==="online" && !S.me.id){ $("#tabs").innerHTML=""; v.innerHTML=viewWho(); return; }
+  const fn={prime:viewPrime,rank:viewRank,nights:viewNights,jury:viewJury,set:viewSet}[S.tab];
+  v.innerHTML=fn()+(S.dbError?`<div class="banner">${esc(S.dbError)}</div>`:"")+(S.mode==="local"?`<div class="banner">Mode test : la base de données n'est pas encore configurée, les notes restent sur cet appareil. Suis le guide d'installation pour noter à plusieurs.</div>`:"");
+}
+
+function viewWho(){
+  const ids=Object.keys(S.jurors).sort((a,b)=>realName(a).localeCompare(realName(b)));
+  let h=`<section class="marquee"><h1>Qui <span>note</span> ce soir ?</h1><p class="meta">Choisis ton prénom. Ton téléphone s'en souviendra pour les prochains primes.</p></section>`;
+  if(S.dbError) h+=`<div class="banner">${esc(S.dbError)}</div>`;
+  if(ids.length){ h+=`<div class="card">`+ids.map((id,i)=>`<button class="settings-row" data-juror="${esc(id)}">${avatar(id,34)}<span class="grow">${esc(realName(id))}</span><span class="hint" style="margin:0">C'est moi</span></button>`).join("")+`</div>`; }
+  else if(!S.jurorsLoaded) h+=`<p class="hint">Chargement du jury…</p>`;
+  h+=`<h2 class="sec">${ids.length?"Pas dans la liste ?":"Tu es le premier juré"}</h2><div class="card" style="padding:14px 16px"><label class="field" style="margin-bottom:10px"><span>Ton prénom</span><input id="newjur" maxlength="30" autocomplete="given-name" placeholder="Ex. Romain"></label><button class="btn primary block" data-act="new-juror">Rejoindre le jury</button></div>`;
+  return h;
+}
+
+function tile(label,name,val,cls){
+  return `<div class="tile ${cls}"><span class="lbl">${label}</span><b>${name}</b>${val}</div>`;
+}
+
+function viewPrime(){
+  const n=S.prime, pr=S.primes["p"+n]||{}, list=prestasOf(n);
+  let h=`<div class="strip" role="group" aria-label="Choisir le prime">`;
+  for(let i=1;i<=S.params.nb;i++){ const has=S.prestas.some(p=>p.prime===i); h+=`<button class="chip-p ${has?"has":""}" data-prime="${i}" aria-pressed="${i===n}">P${i}</button>`; }
+  h+=`</div>`;
+  const date = pr.date ? new Date(pr.date+"T12:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}) : "";
+  const bits=[]; if(date) bits.push(`<b>${esc(date)}</b>`); if(pr.theme) bits.push(esc(pr.theme)); if(pr.invites) bits.push(`avec ${esc(pr.invites)}`);
+  h+=`<section class="marquee"><h1>Prime <span>${n}</span></h1><p class="meta">${bits.join(" · ")||"Soirée pas encore renseignée"}</p>`;
+  const myB=bilanOf(S.me.id,n);
+  h+=`<div class="row-actions">`;
+  if(list.length) h+=`<button class="btn gold" data-act="bilan">${myB?"Mon bilan de la soirée ★":"Faire mon bilan de la soirée"}</button>`;
+  if(S.canWrite) h+=`<button class="btn" data-act="edit-prime">Infos et nommés</button>`;
+  h+=`</div></section>`;
+
+  if(!S.eleves.length){
+    return h+`<div class="empty"><p>Commence par ajouter les élèves de la promo.</p><button class="btn primary" data-tab="set">Ajouter les élèves</button></div>`;
+  }
+  /* prestations */
+  h+=`<h2 class="sec">Prestations</h2>`;
+  if(!list.length){
+    h+=`<div class="empty"><p>Aucune prestation pour ce prime.</p>${S.canWrite?`<button class="btn primary" data-act="new-presta">Ajouter la première prestation</button>`:""}</div>`;
+  } else {
+    h+=`<div class="list">`;
+    list.forEach((p,i)=>{
+      const mineP=prestaFor(S.me.id,p), jury=aggPresta(p,allIds());
+      const names=(p.eleves||[]).map(e=>`<span class="nm ${indivFor(S.me.id,p.id,e)?"done":""}">${esc(eleveName(e))}</span>`).join("");
+      h+=`<article class="card"><button class="presta" data-open="${esc(p.id)}" aria-label="Noter ${esc(p.titre||"la prestation")}">
+        <span class="ord">${i+1}</span>
+        <span><span class="p-title">${esc(p.titre||"Sans titre")}</span><span class="type">${esc(p.type||"")}</span>
+          <span class="p-sub">${esc(p.artiste||"")}${p.invite?` · <span class="guest">avec ${esc(p.invite)}</span>`:""}</span>
+          <span class="names">${names}</span></span>
+        <span class="scores">${num(mineP)?`<span class="lbl">Toi</span>${noteEl(mineP)}`:`<span class="todo">À noter</span>`}
+          ${num(jury)&&allIds().length>1?`<span class="lbl">Jury ${fmt(jury)}</span>`:""}</span>
+      </button>${S.canWrite?`<div class="card-edit"><button class="link" data-edit="${esc(p.id)}">Modifier</button></div>`:""}</article>`;
+    });
+    h+=`</div>`;
+    if(S.canWrite) h+=`<div style="margin-top:14px"><button class="btn primary block" data-act="new-presta">Ajouter une prestation</button></div>`;
+  }
+
+  /* nommés */
+  h+=`<h2 class="sec">Les nommés</h2>`;
+  const noms=pr.nommes||[];
+  if(!noms.length){
+    h+=`<p class="hint">Indique les nommés et leur chanson dans « Infos et nommés » pour les noter à part et désigner qui devrait partir.</p>`;
+  } else {
+    const ns=nomiSummary(n);
+    h+=`<p class="hint">Notés à part : ces notes ne comptent pas dans le classement général.</p><div class="card">`;
+    ns.rows.forEach((x,i)=>{
+      const song=(pr.nomiSongs||{})[x.e];
+      h+=`<div class="nomi" style="${i<ns.rows.length-1?"border-bottom:1px solid var(--line)":""}"><div><b>${esc(eleveName(x.e))}</b>${ns.myVote===x.e?`<span class="badge out">ton choix</span>`:""}
+        <div class="p-sub">${song?esc(song):"Chanson non renseignée"}</div>
+        <div class="p-sub">${plural(x.votes,"vote")} pour son départ</div></div>
+        <div class="scores">${x.mine?`<span class="lbl">Toi</span>${noteEl(x.mine.gl)}`:`<span class="todo">À noter</span>`}${num(x.v)&&allIds().length>1?`<span class="lbl">Jury ${fmt(x.v)}</span>`:""}</div></div>`;
+    });
+    h+=`</div>`;
+    if(ns.verdict){
+      const agree = pr.elimine ? (pr.elimine===ns.verdict.e ? "Le jury avait vu juste." : "Le public n'a pas suivi le jury.") : "";
+      h+=`<div class="verdict">Selon le jury, <b>${esc(eleveName(ns.verdict.e))}</b> devrait partir${ns.totalVotes?` (${plural(ns.verdict.votes,"vote")} sur ${ns.totalVotes})`:" (note la plus basse)"}.${pr.elimine?`<br>Éliminé·e ce soir : <b>${esc(eleveName(pr.elimine))}</b>. ${agree}`:""}</div>`;
+    }
+    h+=`<div style="margin-top:10px"><button class="btn primary block" data-act="nomi">${ns.myVote?"Revoir mes notes des nommés":"Noter les nommés et choisir qui doit partir"}</button></div>`;
+  }
+
+  if(!list.length) return h;
+
+  /* verdict du jury */
+  const sm=primeSummary(n);
+  if(sm.pr.length || sm.favE || num(sm.soiree)){
+    h+=`<h2 class="sec">Le verdict du jury</h2><div class="tiles">`;
+    if(sm.bestP) h+=tile("Meilleure prestation",esc(sm.bestP.p.titre),noteEl(sm.bestP.v),"up");
+    if(sm.worstP) h+=tile("Pire prestation",esc(sm.worstP.p.titre),noteEl(sm.worstP.v),"down");
+    if(sm.bestE) h+=tile("Élève du prime",esc(eleveName(sm.bestE.e)),noteEl(sm.bestE.v),"up");
+    if(sm.worstE) h+=tile("Plus mauvais prime",esc(eleveName(sm.worstE.e)),noteEl(sm.worstE.v),"down");
+    if(sm.favE) h+=tile(sm.favE.ks.length>1?"Coups de cœur élèves (égalité)":"Coup de cœur élève",sm.favE.ks.map(k=>esc(eleveName(k))).join(", "),`<span class="lbl">${plural(sm.favE.c,"voix")}${sm.favE.ks.length>1?" chacun":""}</span>`,"fav");
+    if(sm.favP) h+=tile(sm.favP.ks.length>1?"Coups de cœur prestations (égalité)":"Coup de cœur prestation",sm.favP.ks.map(k=>esc(prestaById(k).titre)).join(", "),`<span class="lbl">${plural(sm.favP.c,"voix")}${sm.favP.ks.length>1?" chacune":""}</span>`,"fav");
+    if(num(sm.soiree)) h+=tile("Note de la soirée",fmt(sm.soiree)+" / 10","","fav");
+    h+=`</div>`;
+  }
+
+  /* notes de chacun */
+  h+=`<h2 class="sec">Les notes de chacun</h2>`+matrix(n);
+
+  /* bilans */
+  const bil=juryOrder(allIds()).filter(r=>bilanOf(r,n));
+  if(bil.length){
+    h+=`<h2 class="sec">Les bilans de la soirée</h2><div class="list">`;
+    bil.forEach(r=>{
+      const b=bilanOf(r,n), fp=b.fp&&prestaById(b.fp);
+      h+=`<article class="card bilan"><div class="bl-head">${avatar(r,30)}<b>${esc(raterName(r))}</b>${num(b.note)?`<span style="margin-left:auto">${noteEl(b.note)}</span>`:""}</div>
+        <div class="facts">${b.fe?`<span>Élève préféré : <b>${esc(eleveName(b.fe))}</b></span>`:""}${fp?`<span>Prestation préférée : <b>${esc(fp.titre)}</b></span>`:""}</div>
+        ${b.com?`<p class="com">${esc(b.com)}</p>`:""}</article>`;
+    });
+    h+=`</div>`;
+  }
+  return h;
+}
+
+function matrix(n){
+  const list=prestasOf(n);
+  const ids=juryOrder(allIds()).filter(r=>list.some(p=>num(prestaFor(r,p)))||num(primeFor(r,n)));
+  if(!ids.length) return `<p class="hint">Les notes du jury s'afficheront ici dès les premières notes.</p>`;
+  let rows;
+  if(S.mx==="presta"){
+    rows=list.map(p=>({label:p.titre||"Sans titre",sub:(p.eleves||[]).map(eleveName).join(", "),cells:ids.map(r=>prestaFor(r,p)),all:aggPresta(p,ids)}));
+  } else {
+    const set=[...new Set(list.flatMap(p=>p.eleves||[]))];
+    rows=set.map(e=>{ const ps=list.filter(p=>(p.eleves||[]).includes(e));
+      return {label:eleveName(e),sub:plural(ps.length,"prestation"),
+        cells:ids.map(r=>avg(ps.map(p=>{const s=indivFor(r,p.id,e);return s&&s.gl;}))),
+        all:avg(ps.map(p=>{const a=aggIndiv(p.id,e,ids);return a&&a.gl;}))}; })
+      .sort((a,b)=>(num(b.all)?b.all:-1)-(num(a.all)?a.all:-1));
+  }
+  rows.push({label:"La soirée",sub:"note du bilan",cells:ids.map(r=>primeFor(r,n)),all:aggPrime(n,ids),soir:true});
+  let h=`<div class="seg-in" role="group" aria-label="Affichage"><button data-mx="presta" aria-pressed="${S.mx==="presta"}">Par prestation</button><button data-mx="eleve" aria-pressed="${S.mx==="eleve"}">Par élève</button></div>`;
+  h+=`<div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">${S.mx==="presta"?"Prestation":"Élève"}</th>${ids.map(r=>`<th scope="col">${esc(raterFirst(r))}</th>`).join("")}${ids.length>1?`<th scope="col">Jury</th>`:""}</tr></thead><tbody>`;
+  rows.forEach(r=>{ h+=`<tr class="${r.soir?"soir":""}"><td>${esc(r.label)}<small>${esc(r.sub)}</small></td>${r.cells.map(v=>`<td>${num(v)?noteEl(v):`<span class="dash">·</span>`}</td>`).join("")}${ids.length>1?`<td class="all">${noteEl(r.all)}</td>`:""}</tr>`; });
+  return h+`</tbody></table></div>`;
+}
+
+function filterBar(){
+  const ids=allIds();
+  let o=`<option value="all" ${S.filter==="all"?"selected":""}>Tout le jury (${ids.length})</option>`;
+  juryOrder(ids).forEach(id=>{ o+=`<option value="${esc(id)}" ${S.filter===id?"selected":""}>${esc(id===S.me.id?"Mes notes":raterName(id))}</option>`; });
+  return `<div class="filter"><label for="flt" class="lbl" style="font-size:13px">Notes de</label><select id="flt">${o}</select></div>`;
+}
+function spark(per){
+  const W=78,H=28,nb=S.params.nb; const pts=[];
+  for(let i=1;i<=nb;i++) if(num(per[i])) pts.push([ (i-1)/(Math.max(nb-1,1))*(W-6)+3, H-3-(per[i]/10)*(H-6) ]);
+  if(!pts.length) return `<svg class="spark" aria-hidden="true"></svg>`;
+  const d=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  const last=pts[pts.length-1];
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" aria-hidden="true"><path d="${d}" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${last[0]}" cy="${last[1]}" r="3" fill="var(--gold-bright)"/></svg>`;
+}
+function statutBadge(s){ if(!s||s==="En lice") return ""; const c=s.startsWith("Élim")?"out":s.startsWith("Gagn")||s.startsWith("Final")?"win":""; return `<span class="badge ${c}">${esc(s)}</span>`; }
+function weightsText(){ const w=S.params,t=(+w.wC)+(+w.wP)+(+w.wD)||1; return `chant ${Math.round(w.wC/t*100)} %, présence ${Math.round(w.wP/t*100)} %, danse ${Math.round(w.wD/t*100)} %`; }
+
+function viewRank(){
+  let h=`<section class="marquee"><h1>Classement</h1><p class="meta">Moyenne de toutes les prestations notées, pondérée ${weightsText()}. Les notes des nommés sont à part.</p></section>`;
+  h+=filterBar();
+  const R=ranking();
+  if(!R.length) return h+`<div class="empty"><p>Ajoute les élèves pour voir le classement.</p></div>`;
+  if(!R.some(x=>num(x.s.gl))) h+=`<p class="hint">Le classement apparaîtra dès les premières notes.</p>`;
+  h+=`<div class="card">`;
+  R.forEach((x,i)=>{
+    const s=x.s, p=s.prog;
+    h+=`<button class="rank" data-fiche="${esc(x.e.id)}" style="${i<R.length-1?"border-bottom:1px solid var(--line)":""}">
+      <span class="rk ${x.rank===1?"r1":""}">${x.rank||"–"}</span>
+      <span><span class="r-name">${esc(x.e.name)}</span>${statutBadge(x.e.statut)}
+        <span class="r-bars"><span>Chant <i>${fmt(s.ch)}</i></span><span>Présence <i>${fmt(s.ps)}</i></span><span>Danse <i>${fmt(s.da)}</i></span><span>${s.n} prest.</span></span></span>
+      <span class="r-right">${spark(s.perPrime)}<span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">${noteEl(s.gl)}${num(p)?`<span class="prog ${p>0?"up":p<0?"down":""}">${p>0?"+":""}${fmt(p)}</span>`:""}</span></span>
+    </button>`;
+  });
+  return h+`</div>`;
+}
+
+function viewNights(){
+  let h=`<section class="marquee"><h1>Soirées</h1><p class="meta">Le bilan de chaque prime.</p></section>`+filterBar();
+  let any=false; h+=`<div class="list">`;
+  for(let n=1;n<=S.params.nb;n++){
+    const list=prestasOf(n), pr=S.primes["p"+n]||{};
+    if(!list.length && !pr.theme) continue; any=true;
+    const sm=primeSummary(n,raterIds()), ns=nomiSummary(n,raterIds());
+    const f=[];
+    f.push(`<span><b>${esc(pr.theme||"Prime "+n)}</b>${pr.date?" · "+esc(new Date(pr.date+"T12:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short"})):""}</span>`);
+    f.push(`<span>Moyenne des prestations : <b>${fmt(sm.moy)}</b> sur ${list.length}</span>`);
+    if(sm.bestP) f.push(`<span>Meilleure prestation : <b>${esc(sm.bestP.p.titre)}</b> (${fmt(sm.bestP.v)})</span>`);
+    if(sm.worstP) f.push(`<span>Pire prestation : <b>${esc(sm.worstP.p.titre)}</b> (${fmt(sm.worstP.v)})</span>`);
+    if(sm.bestE) f.push(`<span>Élève du prime : <b>${esc(eleveName(sm.bestE.e))}</b> (${fmt(sm.bestE.v)})</span>`);
+    if(sm.worstE) f.push(`<span>Plus mauvais prime : <b>${esc(eleveName(sm.worstE.e))}</b> (${fmt(sm.worstE.v)})</span>`);
+    if(sm.favE) f.push(`<span>Coup de cœur : <b>${sm.favE.ks.map(k=>esc(eleveName(k))).join(", ")}</b></span>`);
+    if(ns.verdict) f.push(`<span>Le jury voulait voir partir : <b>${esc(eleveName(ns.verdict.e))}</b></span>`);
+    if(pr.elimine) f.push(`<span>Éliminé·e : <b>${esc(eleveName(pr.elimine))}</b></span>`);
+    h+=`<article class="card nightrow"><button class="nightnum" data-goprime="${n}" aria-label="Ouvrir le prime ${n}">P${n}</button><div class="facts">${f.join("")}</div><span style="text-align:center"><span class="lbl">Soirée</span><br>${noteEl(sm.soiree)}</span></article>`;
+  }
+  h+=`</div>`;
+  if(!any) h+=`<div class="empty"><p>Les soirées notées apparaîtront ici.</p></div>`;
+  return h;
+}
+
+function viewJury(){
+  let h=`<section class="marquee"><h1>Le jury</h1><p class="meta">Qui note quoi, et qui est le plus sévère.</p></section>`;
+  const ids=allIds();
+  if(!ids.length) return h+`<div class="empty"><p>Personne n'a encore noté. Lance-toi sur l'onglet Prime.</p></div>`;
+  const rows=ids.map(r=>{
+    const vals=[], diffs=[];
+    S.prestas.forEach(p=>(p.eleves||[]).forEach(e=>{
+      const s=indivFor(r,p.id,e); if(!s) return; vals.push(s.gl);
+      const others=avg(ids.filter(o=>o!==r).map(o=>{const t=indivFor(o,p.id,e); return t&&t.gl;}));
+      if(num(others)) diffs.push(s.gl-others);
+    }));
+    return {r,n:vals.length,m:avg(vals),d:avg(diffs)};
+  }).sort((a,b)=>b.n-a.n);
+  h+=`<div class="card">`;
+  rows.forEach((x,i)=>{
+    const verdict=!num(x.d)?"":x.d<=-0.4?"plus sévère que les autres":x.d>=0.4?"plus généreux que les autres":"dans la moyenne du jury";
+    h+=`<div class="juror" style="${i<rows.length-1?"border-bottom:1px solid var(--line)":""}">${avatar(x.r,40)}
+      <div><b>${esc(raterName(x.r))}</b><div class="hint" style="margin:0">${plural(x.n,"note")}${verdict?" · "+verdict+(num(x.d)?` (${x.d>0?"+":""}${fmt(x.d)})`:""):""}</div></div>
+      <span style="text-align:center"><span class="lbl">Moyenne donnée</span><br>${noteEl(x.m)}</span></div>`;
+  });
+  return h+`</div>`;
+}
+
+function viewSet(){
+  let h=`<section class="marquee"><h1>Réglages</h1><p class="meta">La promo, le calcul de la note et le partage.</p></section>`;
+  h+=`<h2 class="sec">Élèves de la promo</h2>`;
+  if(!S.eleves.length) h+=`<p class="hint">Ajoute les élèves dès l'annonce de la promo : ils seront proposés dans chaque prestation.</p>`;
+  if(S.eleves.length){ h+=`<div class="card">`+S.eleves.map(e=>`<button class="settings-row" data-eleve="${esc(e.id)}" ${S.canWrite?"":"disabled"}><span class="grow">${esc(e.name)}</span>${statutBadge(e.statut)||`<span class="badge">En lice</span>`}</button>`).join("")+`</div>`; }
+  if(S.canWrite) h+=`<div style="margin-top:10px"><button class="btn primary" data-act="new-eleve">Ajouter un élève</button></div>`;
+  h+=`<h2 class="sec">Calcul de la note</h2><div class="card"><button class="settings-row" data-act="edit-params" ${S.canWrite?"":"disabled"}><span class="grow">Poids des critères</span><span class="hint" style="margin:0;text-align:right">${weightsText()}</span></button>
+    <button class="settings-row" data-act="edit-params" ${S.canWrite?"":"disabled"}><span class="grow">Nombre de primes</span><span class="hint" style="margin:0">${S.params.nb}</span></button></div>`;
+  if(S.mode==="online" && S.me.id) h+=`<h2 class="sec">Mon profil de juré</h2><div class="card"><div class="settings-row">${avatar(S.me.id,34)}<span class="grow">Tu notes en tant que ${esc(realName(S.me.id))}</span></div><button class="settings-row" data-act="rename-juror"><span class="grow">Modifier mon prénom</span></button><button class="settings-row" data-act="leave-juror"><span class="grow">Changer de juré sur ce téléphone</span></button></div>`;
+  h+=`<h2 class="sec">Noter à plusieurs</h2><div class="card" style="padding:14px 16px"><p style="margin:0 0 8px">Envoie simplement le lien de cette page à tes proches. À la première ouverture, chacun choisit son prénom, puis note de son côté. L'onglet Prime montre les notes de chacun et le classement combine tout le jury.</p><p class="hint" style="margin:0">Toute personne qui a le lien peut noter : ne le partage qu'à la famille.</p></div>`;
+  return h;
+}
+
+/* ---------- Feuilles ---------- */
+let sheetCtx=null;
+function openSheet(html,ctx){ sheetCtx=ctx||null; $("#sheet").innerHTML=html; $("#scrim").hidden=false; const f=$("#sheet").querySelector("[autofocus]")||$("#sheet .x"); if(f) f.focus(); }
+function saveTexts(){
+  if(!sheetCtx) return;
+  const a=$("#avis");
+  if(a && sheetCtx.kind==="rate"){ const v=a.value.trim(), pid=sheetCtx.pid; if((S.mine.c[pid]||"")!==v){ if(v) S.mine.c[pid]=v; else delete S.mine.c[pid]; mineChanged(); } }
+  const b=$("#bcom");
+  if(b && sheetCtx.kind==="bilan"){ const v=b.value.trim(), o=bilanObj(sheetCtx.n,!!v); if(o && (o.com||"")!==v){ if(v) o.com=v; else delete o.com; mineChanged(); } }
+}
+function closeSheet(){ saveTexts(); $("#scrim").hidden=true; $("#sheet").innerHTML=""; sheetCtx=null; if(dirty) flushMine(); render(); }
+$("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeSheet(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#scrim").hidden) closeSheet(); });
+
+function critRow(key,label,val){
+  const set=num(val);
+  return `<div class="crit"><label for="c_${key}">${esc(label)}</label><button class="val ${set?"set":""}" data-clear="${key}" aria-label="${set?"Effacer la note":"Pas encore noté"}">${set?fmt(val):"—"}</button>
+    <input type="range" id="c_${key}" data-k="${key}" min="0" max="10" step="0.5" value="${set?val:5}" class="${set?"":"unset"}"></div>`;
+}
+function ring(v){
+  const r=32,c=2*Math.PI*r,p=num(v)?v/10:0;
+  return `<div class="ring"><svg viewBox="0 0 74 74"><circle cx="37" cy="37" r="${r}" fill="none" stroke="var(--line)" stroke-width="7"/><circle cx="37" cy="37" r="${r}" fill="none" stroke="var(--gold-bright)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${(c*p).toFixed(1)} ${c.toFixed(1)}"/></svg><b>${fmt(v)}</b></div>`;
+}
+function subsLine(s){ return `<span>Chant <i>${fmt(s&&s.ch)}</i></span><span>Présence <i>${fmt(s&&s.ps)}</i></span><span>Danse <i>${fmt(s&&s.da)}</i></span>`; }
+function critBlock(c){ return `<div class="fam">${CRITS.map(([k,l])=>critRow(k,l,c[k])).join("")}</div><p class="hint" style="margin-top:10px">Pas de danse ? Laisse le critère vide, il ne compte pas.</p>`; }
+function segTabs(tabs,cur,isDone){ return `<div class="seg" role="group" aria-label="Qui noter">${tabs.map(t=>`<button data-rtab="${esc(t.k)}" aria-pressed="${t.k===cur}">${esc(t.label)}${isDone(t.k)?`<span class="ck" aria-label="noté">★</span>`:""}</button>`).join("")}</div>`; }
+function nextFoot(tabs,cur){ const idx=tabs.findIndex(t=>t.k===cur), next=tabs[idx+1];
+  return `<div class="sh-foot">${next?`<button class="btn primary" data-rtab="${esc(next.k)}">Suivant : ${esc(next.label)}</button>`:`<button class="btn primary" data-act="close">Terminer</button>`}</div>`; }
+
+/* notation d'une prestation */
+function openRate(pid,tab){
+  const p=prestaById(pid); if(!p) return;
+  const el=p.eleves||[], group=el.length>=2;
+  const tabs=el.map(e=>({k:e,label:eleveName(e)})); if(group) tabs.push({k:"__ens",label:"Ensemble"});
+  if(!tabs.length){ toast("Ajoute d'abord les élèves de cette prestation."); return; }
+  const cur=tab||tabs[0].k;
+  let h=`<div class="sh-head"><div><h3>${esc(p.titre||"Prestation")}</h3><p>${esc(p.artiste||"")}${p.invite?" · avec "+esc(p.invite):""} · Prime ${p.prime}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div>`;
+  h+=segTabs(tabs,cur,k=>k==="__ens"?num(ensFor(S.me.id,pid)):!!indivFor(S.me.id,pid,k));
+  h+=`<div class="sh-body" id="rbody">`;
+  const c = cur==="__ens" ? (S.mine.e[pid]||{}) : ((S.mine.i[pid]&&S.mine.i[pid][cur])||{});
+  const s=subs(c);
+  h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${cur==="__ens"?"La prestation dans son ensemble":esc(eleveName(cur))}</div><div class="subs">${subsLine(s)}</div></div></div>`;
+  h+=critBlock(c);
+  h+=`<div class="field" style="margin-top:16px"><span>Ton avis sur la prestation</span><textarea id="avis" maxlength="400" placeholder="Un frisson, une fausse note, un moment fort…">${esc(S.mine.c[pid]||"")}</textarea></div>`;
+  const others=juryOrder(allIds()).filter(r=>r!==S.me.id && ((S.notes[r].c&&S.notes[r].c[pid]) || num(prestaFor(r,p))));
+  if(others.length){
+    h+=`<h4 style="margin:6px 0 8px;font-size:14px">Ce qu'en pense le jury</h4>`+others.map(r=>`<div class="opinion"><b>${esc(raterName(r))} · ${fmt(prestaFor(r,p))}</b>${esc((S.notes[r].c&&S.notes[r].c[pid])||"")}</div>`).join("");
+  }
+  h+=`</div>`+nextFoot(tabs,cur);
+  openSheet(h,{kind:"rate",pid,tab:cur});
+}
+
+/* notation des nommés */
+function nomiObj(n,create){ if(create){ S.mine.n[n]=S.mine.n[n]||{e:{}}; S.mine.n[n].e=S.mine.n[n].e||{}; } return S.mine.n[n]; }
+function openNomi(n,tab){
+  const pr=S.primes["p"+n]||{}, noms=pr.nommes||[];
+  if(!noms.length) return;
+  const tabs=noms.map(e=>({k:e,label:eleveName(e)})); tabs.push({k:"__vote",label:"Qui doit partir ?"});
+  const cur=tab||tabs[0].k, mine=nomiObj(n,false)||{e:{}};
+  let h=`<div class="sh-head"><div><h3>Les nommés du prime ${n}</h3><p>Notés à part, hors classement général</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div>`;
+  h+=segTabs(tabs,cur,k=>k==="__vote"?!!mine.part:!!nomFor(S.me.id,n,k));
+  h+=`<div class="sh-body">`;
+  if(cur==="__vote"){
+    const ns=nomiSummary(n);
+    h+=`<p style="margin:4px 0 12px;font-weight:600">Selon toi, qui doit quitter le château ?</p><div class="pick vote">${ns.rows.map(x=>`<button type="button" data-vote="${esc(x.e)}" aria-pressed="${mine.part===x.e}">${esc(eleveName(x.e))}<small>${x.mine?"ta note "+fmt(x.mine.gl):"pas noté"}</small></button>`).join("")}</div>`;
+    h+=`<p class="hint" style="margin-top:12px">Le verdict du jury s'affiche dans l'onglet Prime, à côté du vrai résultat.</p>`;
+  } else {
+    const c=(mine.e&&mine.e[cur])||{}, s=subs(c), song=(pr.nomiSongs||{})[cur];
+    h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${esc(eleveName(cur))}</div><div class="p-sub" style="margin:0 0 4px">${song?esc(song):"Chanson de nomination"}</div><div class="subs">${subsLine(s)}</div></div></div>`;
+    h+=critBlock(c);
+  }
+  h+=`</div>`+nextFoot(tabs,cur);
+  openSheet(h,{kind:"nomi",n,tab:cur});
+}
+
+/* bilan de la soirée */
+function bilanObj(n,create){ if(create && !S.mine.p[n]) S.mine.p[n]={}; return S.mine.p[n]; }
+function openBilan(n){
+  const b=bilanObj(n,false)||{}, list=prestasOf(n);
+  const onStage=[...new Set(list.flatMap(p=>p.eleves||[]))];
+  let h=`<div class="sh-head"><div><h3>Mon bilan du prime ${n}</h3><p>Visible par tout le jury</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">`;
+  h+=`<div class="spot">${ring(b.note)}<div><div class="who2">Ma note de la soirée</div><div class="subs">Le prime dans son ensemble</div></div></div>`;
+  h+=`<div class="fam">${critRow("note","Note de la soirée",b.note)}</div>`;
+  h+=`<div class="field" style="margin-top:14px"><span>Mon élève préféré de la semaine</span><div class="pick">${onStage.map(e=>`<button type="button" data-fave="${esc(e)}" aria-pressed="${b.fe===e}">${esc(eleveName(e))}</button>`).join("")}</div></div>`;
+  h+=`<div class="field"><span>Ma prestation préférée de la soirée</span><div class="pick">${list.map(p=>`<button type="button" data-favp="${esc(p.id)}" aria-pressed="${b.fp===p.id}">${esc(p.titre||"Sans titre")}</button>`).join("")}</div></div>`;
+  h+=`<div class="field"><span>Mon commentaire</span><textarea id="bcom" maxlength="600" placeholder="Ce que tu retiens de la soirée…">${esc(b.com||"")}</textarea></div>`;
+  h+=`</div><div class="sh-foot"><button class="btn primary" data-act="close">Terminer</button></div>`;
+  openSheet(h,{kind:"bilan",n});
+}
+
+function currentCritObj(create){
+  const {kind,pid,tab,n}=sheetCtx||{};
+  if(kind==="bilan") return bilanObj(n,create);
+  if(kind==="nomi"){ const o=nomiObj(n,create); if(!o) return null; if(create) o.e[tab]=o.e[tab]||{}; return o.e&&o.e[tab]; }
+  if(kind!=="rate") return null;
+  if(tab==="__ens"){ if(create && !S.mine.e[pid]) S.mine.e[pid]={}; return S.mine.e[pid]; }
+  if(create){ S.mine.i[pid]=S.mine.i[pid]||{}; S.mine.i[pid][tab]=S.mine.i[pid][tab]||{}; }
+  return S.mine.i[pid]&&S.mine.i[pid][tab];
+}
+function refreshSpot(){
+  const {kind,tab}=sheetCtx||{}; const c=currentCritObj(false)||{}; const spot=$("#sheet .spot"); if(!spot) return;
+  if(kind==="bilan"){ spot.querySelector(".ring").outerHTML=ring(c.note); return; }
+  const s=subs(c); spot.querySelector(".ring").outerHTML=ring(s&&s.gl);
+  const sl=spot.querySelector(".subs"); if(sl) sl.innerHTML=subsLine(s);
+  const b=$(`#sheet .seg [data-rtab="${CSS.escape(tab)}"]`); if(b && s && !b.querySelector(".ck")) b.insertAdjacentHTML("beforeend",`<span class="ck" aria-label="noté">★</span>`);
+}
+function setCrit(input){
+  if(!S.me.id){ toast("Choisis d\u2019abord ton prénom dans Réglages."); return; }
+  const k=input.dataset.k, v=parseFloat(input.value);
+  const c=currentCritObj(true); c[k]=v;
+  input.classList.remove("unset");
+  const b=input.parentElement.querySelector(".val"); b.textContent=fmt(v); b.classList.add("set"); b.setAttribute("aria-label","Effacer la note");
+  refreshSpot(); mineChanged();
+}
+function clearCrit(k){
+  const c=currentCritObj(false); if(!c||!num(c[k])) return;
+  delete c[k];
+  const row=$(`#c_${k}`).parentElement; row.querySelector("input").classList.add("unset"); row.querySelector("input").value=5;
+  const b=row.querySelector(".val"); b.textContent="—"; b.classList.remove("set");
+  refreshSpot(); mineChanged();
+}
+function singlePick(btn,attr,obj,field){
+  if(!S.me.id){ toast("Choisis d\u2019abord ton prénom dans Réglages."); return; }
+  const val=btn.getAttribute(attr), on=obj[field]===val;
+  if(on) delete obj[field]; else obj[field]=val;
+  btn.parentElement.querySelectorAll(`[${attr}]`).forEach(b=>b.setAttribute("aria-pressed",String(!on && b===btn)));
+  if(attr==="data-vote"){ const sb=$('#sheet .seg [data-rtab="__vote"]'); if(sb){ const ck=sb.querySelector(".ck"); if(!on && !ck) sb.insertAdjacentHTML("beforeend",`<span class="ck" aria-label="noté">★</span>`); if(on && ck) ck.remove(); } }
+  mineChanged();
+}
+
+/* formulaire prestation */
+function openPrestaForm(pid){
+  const p=pid?clone(prestaById(pid)):{prime:S.prime,type:"Solo",titre:"",artiste:"",invite:"",eleves:[],ordre:prestasOf(S.prime).length+1};
+  if(!p) return;
+  const active=S.eleves.filter(e=>!(e.statut||"").startsWith("Élim") || (p.eleves||[]).includes(e.id));
+  let h=`<div class="sh-head"><div><h3>${pid?"Modifier la prestation":"Nouvelle prestation"}</h3><p>Prime ${p.prime}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
+  <label class="field"><span>Titre de la chanson</span><input id="f_titre" value="${esc(p.titre)}" autofocus autocomplete="off"></label>
+  <label class="field"><span>Artiste original</span><input id="f_artiste" value="${esc(p.artiste)}" autocomplete="off"></label>
+  <label class="field"><span>Accompagné par un artiste invité (facultatif)</span><input id="f_invite" value="${esc(p.invite)}" autocomplete="off"></label>
+  <label class="field"><span>Type</span><select id="f_type">${TYPES.map(t=>`<option ${t===p.type?"selected":""}>${t}</option>`).join("")}</select></label>
+  <div class="field"><span>Élève(s) sur scène</span><div class="pick" id="f_eleves">${active.map(e=>`<button type="button" data-pick="${esc(e.id)}" aria-pressed="${(p.eleves||[]).includes(e.id)}">${esc(e.name)}</button>`).join("")||`<span class="hint">Ajoute d'abord les élèves dans Réglages.</span>`}</div></div>
+  <label class="field"><span>Ordre de passage</span><input id="f_ordre" type="number" min="1" max="40" value="${esc(p.ordre||1)}"></label>
+  </div><div class="sh-foot">${pid?`<button class="btn danger" data-act="del-presta">Supprimer</button>`:""}<button class="btn primary" data-act="save-presta">Enregistrer</button></div>`;
+  openSheet(h,{kind:"presta",p});
+}
+function autoType(){
+  const n=$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]').length, sel=$("#f_type"); if(!sel) return;
+  if(sel.value==="Tableau collectif") return;
+  sel.value = n<=1?"Solo":n===2?"Duo":n===3?"Trio":"Groupe";
+}
+function savePrestaForm(){
+  const p=sheetCtx.p;
+  p.titre=$("#f_titre").value.trim(); p.artiste=$("#f_artiste").value.trim(); p.invite=$("#f_invite").value.trim();
+  p.type=$("#f_type").value; p.ordre=parseInt($("#f_ordre").value,10)||1;
+  p.eleves=[...$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  if(!p.titre){ toast("Indique le titre de la chanson."); $("#f_titre").focus(); return; }
+  if(!p.eleves.length){ toast("Choisis au moins un élève."); return; }
+  savePresta(p); closeSheet(); toast("Prestation enregistrée");
+}
+
+/* formulaire soirée + nommés */
+function openPrimeForm(n){
+  const pr=S.primes["p"+n]||{};
+  let h=`<div class="sh-head"><div><h3>Infos du prime ${n}</h3></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
+  <label class="field"><span>Date</span><input id="g_date" type="date" value="${esc(pr.date||"")}"></label>
+  <label class="field"><span>Thème de la soirée</span><input id="g_theme" value="${esc(pr.theme||"")}" autocomplete="off"></label>
+  <label class="field"><span>Artistes invités</span><input id="g_inv" value="${esc(pr.invites||"")}" autocomplete="off"></label>
+  <div class="field"><span>Élèves nommés</span><div class="pick">${S.eleves.filter(e=>!(e.statut||"").startsWith("Élim")||(pr.nommes||[]).includes(e.id)).map(e=>`<button type="button" data-pick="${esc(e.id)}" aria-pressed="${(pr.nommes||[]).includes(e.id)}">${esc(e.name)}</button>`).join("")||`<span class="hint">Aucun élève</span>`}</div></div>
+  <div id="songs"></div>
+  <label class="field"><span>Élève éliminé·e</span><select id="g_elim"><option value="">Personne pour l'instant</option>${S.eleves.map(e=>`<option value="${esc(e.id)}" ${pr.elimine===e.id?"selected":""}>${esc(e.name)}</option>`).join("")}</select></label>
+  </div><div class="sh-foot"><button class="btn primary" data-act="save-prime">Enregistrer</button></div>`;
+  openSheet(h,{kind:"primeform",n,songs:Object.assign({},pr.nomiSongs||{})});
+  renderSongs();
+}
+function renderSongs(){
+  const box=$("#songs"); if(!box) return;
+  box.querySelectorAll("[data-song]").forEach(i=>sheetCtx.songs[i.dataset.song]=i.value);
+  const sel=[...$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  box.innerHTML=sel.map(e=>`<label class="field"><span>Chanson de nomination de ${esc(eleveName(e))}</span><input data-song="${esc(e)}" value="${esc(sheetCtx.songs[e]||"")}" placeholder="Titre – artiste" autocomplete="off"></label>`).join("");
+}
+async function savePrimeForm(){
+  const n=sheetCtx.n, elim=$("#g_elim").value;
+  const nommes=[...$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  const nomiSongs={}; $("#sheet").querySelectorAll("[data-song]").forEach(i=>{ const v=i.value.trim(); if(v) nomiSongs[i.dataset.song]=v; });
+  const data={date:$("#g_date").value,theme:$("#g_theme").value.trim(),invites:$("#g_inv").value.trim(),nommes,nomiSongs,elimine:elim};
+  closeSheet(); await savePrime(n,data);
+  if(elim){ const e=S.eleves.find(x=>x.id===elim); if(e && !(e.statut||"").startsWith("Élim")){ saveEleves(S.eleves.map(x=>x.id===elim?Object.assign({},x,{statut:"Éliminé(e)",sortie:n}):x)); } }
+  toast("Soirée enregistrée");
+}
+
+/* élève */
+function openEleveForm(id){
+  const e=id?S.eleves.find(x=>x.id===id):{name:"",statut:"En lice"};
+  let h=`<div class="sh-head"><div><h3>${id?"Modifier l'élève":"Nouvel élève"}</h3></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
+  <label class="field"><span>Prénom</span><input id="e_name" value="${esc(e.name)}" autofocus autocomplete="off" maxlength="40"></label>
+  <label class="field"><span>Statut</span><select id="e_stat">${STATUTS.map(s=>`<option ${s===(e.statut||"En lice")?"selected":""}>${s}</option>`).join("")}</select></label>
+  </div><div class="sh-foot">${id?`<button class="btn danger" data-act="del-eleve">Retirer</button>`:""}<button class="btn primary" data-act="save-eleve">Enregistrer</button></div>`;
+  openSheet(h,{kind:"eleve",id});
+}
+function saveEleveForm(){
+  const name=$("#e_name").value.trim(), statut=$("#e_stat").value, id=sheetCtx.id;
+  if(!name){ toast("Indique un prénom."); return; }
+  const list=id? S.eleves.map(e=>e.id===id?Object.assign({},e,{name,statut}):e) : S.eleves.concat([{id:"e"+uid(),name,statut}]);
+  closeSheet(); saveEleves(list);
+}
+function delEleve(){
+  const id=sheetCtx.id, used=S.prestas.some(p=>(p.eleves||[]).includes(id));
+  if(used && !confirm("Cet élève a déjà des prestations. Le retirer masquera ses notes du classement. Continuer ?")) return;
+  closeSheet(); saveEleves(S.eleves.filter(e=>e.id!==id));
+}
+function openParams(){
+  const w=S.params;
+  let h=`<div class="sh-head"><div><h3>Calcul de la note</h3><p>La note d'un élève combine ses trois critères</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
+  <label class="field"><span>Poids du chant (%)</span><input id="w_c" type="number" min="0" max="100" value="${Math.round(w.wC*100)}"></label>
+  <label class="field"><span>Poids de la présence scénique (%)</span><input id="w_p" type="number" min="0" max="100" value="${Math.round(w.wP*100)}"></label>
+  <label class="field"><span>Poids de la danse (%)</span><input id="w_d" type="number" min="0" max="100" value="${Math.round(w.wD*100)}"></label>
+  <p class="hint">Si le total ne fait pas 100 %, les poids sont ramenés à 100 % automatiquement. Un critère laissé vide ne compte pas.</p>
+  <label class="field"><span>Nombre de primes dans la saison</span><input id="w_nb" type="number" min="1" max="30" value="${w.nb}"></label>
+  </div><div class="sh-foot"><button class="btn primary" data-act="save-params">Enregistrer</button></div>`;
+  openSheet(h,{kind:"params"});
+}
+function saveParamsForm(){
+  const g=id=>Math.max(0,parseFloat($(id).value)||0);
+  const c=g("#w_c"),p=g("#w_p"),d=g("#w_d"); if(c+p+d<=0){ toast("Au moins un poids doit être positif."); return; }
+  const nb=Math.min(30,Math.max(1,parseInt($("#w_nb").value,10)||16));
+  if(S.prime>nb) S.prime=nb;
+  closeSheet(); saveParams({wC:c/100,wP:p/100,wD:d/100,nb});
+}
+
+/* fiche élève */
+function openFiche(id){
+  const e=S.eleves.find(x=>x.id===id); if(!e) return;
+  const s=eleveStats(id), R=ranking(), rk=(R.find(x=>x.e.id===id)||{}).rank;
+  let h=`<div class="sh-head"><div><h3>${esc(e.name)}${statutBadge(e.statut)}</h3><p>${S.filter==="all"?"Notes de tout le jury":"Notes de "+esc(S.filter===S.me.id?"toi":raterName(S.filter))}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">`;
+  h+=`<div class="kpis"><div class="kpi"><b>${fmt(s.gl)}</b><span>Moyenne</span></div><div class="kpi"><b>${rk||"–"}</b><span>Rang</span></div><div class="kpi"><b>${s.n}</b><span>Prestations</span></div><div class="kpi"><b>${num(s.prog)?(s.prog>0?"+":"")+fmt(s.prog):"—"}</b><span>Progression</span></div>
+    <div class="kpi"><b>${fmt(s.ch)}</b><span>Chant</span></div><div class="kpi"><b>${fmt(s.ps)}</b><span>Présence</span></div><div class="kpi"><b>${fmt(s.da)}</b><span>Danse</span></div><div class="kpi"><b>${fmt(s.best)}</b><span>Meilleur prime</span></div></div>`;
+  const nb=S.params.nb, W=600, H=150, bw=W/nb;
+  let bars=`<svg class="bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Évolution de la note par prime">`;
+  [5,10].forEach(y=>{ const yy=H-20-(y/10)*(H-30); bars+=`<line x1="0" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--line)" stroke-dasharray="4 4"/>`; });
+  for(let i=1;i<=nb;i++){ const v=s.perPrime[i], x=(i-1)*bw+bw*0.18, w=bw*0.64;
+    if(num(v)){ const hh=(v/10)*(H-30); bars+=`<rect x="${x}" y="${H-20-hh}" width="${w}" height="${hh}" rx="4" fill="var(--violet)"/><text x="${x+w/2}" y="${H-24-hh}" font-size="15" text-anchor="middle" fill="var(--ink)" font-weight="700">${fmt(v)}</text>`; }
+    bars+=`<text x="${x+w/2}" y="${H-4}" font-size="13" text-anchor="middle" fill="var(--muted)">P${i}</text>`; }
+  h+=bars+`</svg>`;
+  h+=`<h4 style="margin:14px 0 8px;font-size:14px">Ses prestations</h4>`;
+  if(!s.rows.length) h+=`<p class="hint">Aucune prestation notée pour l'instant.</p>`;
+  h+=s.rows.map(({p,a})=>`<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>Prime ${p.prime} · ${esc(p.type||"")}</b>${esc(p.titre||"")}${p.invite?" (avec "+esc(p.invite)+")":""}</span>${noteEl(a.gl)}</div>`).join("");
+  const nomis=[]; for(let n=1;n<=S.params.nb;n++){ const pr=S.primes["p"+n]; if(pr&&(pr.nommes||[]).includes(id)){ const ns=nomiSummary(n,raterIds()); const row=ns.rows.find(x=>x.e===id); nomis.push({n,pr,row}); } }
+  if(nomis.length){
+    h+=`<h4 style="margin:14px 0 8px;font-size:14px">Ses nominations</h4>`+nomis.map(({n,pr,row})=>`<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>Prime ${n} · ${plural(row.votes,"vote")} pour son départ${pr.elimine===id?" · éliminé·e":""}</b>${esc((pr.nomiSongs||{})[id]||"Chanson non renseignée")}</span>${noteEl(row.v)}</div>`).join("");
+  }
+  h+=`</div>`;
+  openSheet(h,{kind:"fiche"});
+}
+
+function openRenameJuror(){
+  openSheet(`<div class="sh-head"><div><h3>Mon prénom</h3><p>Tel qu'il apparaît pour le jury</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body"><label class="field"><span>Prénom</span><input id="jname" value="${esc(realName(S.me.id))}" maxlength="30" autofocus></label></div><div class="sh-foot"><button class="btn primary" data-act="save-juror">Enregistrer</button></div>`,{kind:"juror"});
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.id==="newjur") createJuror(e.target.value); });
+
+/* ---------- Événements ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,[data-tab]"); if(!t) return;
+  const d=t.dataset;
+  if(d.tab){ S.tab=d.tab; if(!$("#scrim").hidden) closeSheet(); render(); window.scrollTo(0,0); return; }
+  if(d.prime){ S.prime=+d.prime; render(); return; }
+  if(d.goprime){ S.prime=+d.goprime; S.tab="prime"; render(); window.scrollTo(0,0); return; }
+  if(d.mx){ S.mx=d.mx; render(); return; }
+  if(d.open){ openRate(d.open); return; }
+  if(d.edit){ openPrestaForm(d.edit); return; }
+  if(d.fiche){ openFiche(d.fiche); return; }
+  if(d.eleve){ openEleveForm(d.eleve); return; }
+  if(d.juror){ chooseJuror(d.juror); return; }
+  if(d.rtab){ if(!sheetCtx) return; saveTexts();
+    if(sheetCtx.kind==="rate") openRate(sheetCtx.pid,d.rtab); else if(sheetCtx.kind==="nomi") openNomi(sheetCtx.n,d.rtab);
+    const b=$("#sheet .sh-body"); if(b) b.scrollTop=0; return; }
+  if(d.clear){ clearCrit(d.clear); return; }
+  if(d.vote){ singlePick(t,"data-vote",nomiObj(sheetCtx.n,true),"part"); return; }
+  if(d.fave){ singlePick(t,"data-fave",bilanObj(sheetCtx.n,true),"fe"); return; }
+  if(d.favp){ singlePick(t,"data-favp",bilanObj(sheetCtx.n,true),"fp"); return; }
+  if(d.pick){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true");
+    if(sheetCtx&&sheetCtx.kind==="presta") autoType(); if(sheetCtx&&sheetCtx.kind==="primeform") renderSongs(); return; }
+  const needMe = () => { if(!S.me.id){ toast("Choisis d\u2019abord ton prénom dans Réglages."); return false; } return true; };
+  switch(d.act){
+    case "close": closeSheet(); break;
+    case "bilan": if(needMe()) openBilan(S.prime); break;
+    case "nomi": if(needMe()) openNomi(S.prime); break;
+    case "edit-prime": openPrimeForm(S.prime); break;
+    case "new-presta": openPrestaForm(null); break;
+    case "save-presta": savePrestaForm(); break;
+    case "del-presta": if(confirm("Supprimer cette prestation ?")){ const id=sheetCtx.p.id; closeSheet(); deletePresta(id); } break;
+    case "save-prime": savePrimeForm(); break;
+    case "new-eleve": openEleveForm(null); break;
+    case "save-eleve": saveEleveForm(); break;
+    case "del-eleve": delEleve(); break;
+    case "edit-params": openParams(); break;
+    case "save-params": saveParamsForm(); break;
+    case "new-juror": createJuror(($("#newjur")||{}).value||""); break;
+    case "leave-juror": leaveJuror(); break;
+    case "rename-juror": openRenameJuror(); break;
+    case "save-juror": { const v=$("#jname").value.trim(); if(!v){ toast("Indique ton prénom."); break; } const id=S.me.id; S.jurors[id]=Object.assign({},S.jurors[id],{name:v}); closeSheet(); sharedWrite(()=>S.db.collection("jurors").doc(id).set({name:v,t:Date.now()})); break; }
+  }
+});
+document.addEventListener("input",e=>{ if(e.target.matches('#sheet input[type=range][data-k]')) setCrit(e.target); });
+["pointerup","keyup"].forEach(ev=>document.addEventListener(ev,e=>{ const t=e.target; if(t.matches&&t.matches('#sheet input[type=range].unset[data-k]')) setCrit(t); }));
+document.addEventListener("change",e=>{ if(e.target.id==="flt"){ S.filter=e.target.value; render(); } });
+
+start();
+})();
+
+</script>
+</body>
+</html>
