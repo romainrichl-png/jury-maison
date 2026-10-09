@@ -46,7 +46,7 @@ img{max-width:100%}
 /* top bar */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .top-in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
-.brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.brand{white-space:nowrap;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
 .brand .star{color:var(--gold-bright);font-size:18px}
 .brand small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:13px}
 .who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
@@ -55,8 +55,8 @@ img{max-width:100%}
 
 /* tabs */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
-.tabs button{background:none;border:0;padding:10px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}
+.tabs-in{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
+.tabs button{background:none;border:0;padding:10px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted);min-width:0}
 .tabs button svg{width:22px;height:22px}
 .tabs button[aria-current="page"]{color:var(--violet)}
 .tabs button[aria-current="page"] svg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--violet) 40%,transparent))}
@@ -231,6 +231,13 @@ button.nightnum{background:none;border:0;padding:0}
 .av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;font-family:var(--display);font-size:13px;flex:0 0 auto}
 .me-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 3px;font-weight:600;font-size:13px}
 .juror .av{font-size:16px}
+.rowbtn{width:100%;border:0;background:none;text-align:left}
+.vote-btn{padding:8px 12px;font-size:13px}
+.mx tr.tabrow td{background:color-mix(in srgb,var(--violet) 7%,var(--surface))}
+.mx tr.tabrow td:first-child{background:color-mix(in srgb,var(--violet) 7%,var(--surface))}
+.wn{font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--surface2)}
+.wn.ok{background:var(--gold-soft);color:var(--gold)}
+@media (max-width:480px){.status{display:none}}
 </style>
 </head>
 <body>
@@ -275,7 +282,7 @@ const TYPES = ["Solo","Duo","Trio","Groupe","Tableau collectif"];
 const STATUTS = ["En lice","Nommé(e)","Éliminé(e)","Finaliste","Gagnant(e)"];
 const LOCAL_KEY = "starac-jury-2026-v2";
 const DEF_PARAMS = {wC:0.5,wP:0.3,wD:0.2,nb:16};
-const emptyMine = () => ({i:{},e:{},p:{},c:{},n:{}});
+const emptyMine = () => ({i:{},e:{},p:{},c:{},n:{},tb:{},b:{},pr:{}});
 
 /* ---------- État ---------- */
 const S = {
@@ -283,7 +290,7 @@ const S = {
   me:{id:null,name:"",avatarUrl:"",color:""}, canWrite:true,
   eleves:[], params:Object.assign({},DEF_PARAMS), primes:{}, prestas:[], notes:{},
   mine:emptyMine(), mineLoaded:false,
-  jurors:{}, notesRaw:{}, jurorsLoaded:false, dbError:"", tab:"prime", prime:1, filter:"all", mx:"presta"
+  jurors:{}, notesRaw:{}, jurorsLoaded:false, dbError:"", tab:"prime", prime:1, filter:"all", mx:"presta", rk:"eleves", week:0, tournee:[]
 };
 
 /* ---------- Utilitaires ---------- */
@@ -383,15 +390,37 @@ function nomiSummary(n,ids){
   return {rows,verdict,totalVotes,myVote:voteOf(S.me.id,n)};
 }
 
+/* ---------- Tableaux chantés-dansés ---------- */
+function tabFor(r,n,eid){ const x=notesOf(r); return subs(x.tb && x.tb[n] && x.tb[n][eid]); }
+function tableauxOf(n){ const pr=S.primes["p"+n]||{}, t=pr.tableaux||{};
+  return S.eleves.filter(e=>e.id in t).map(e=>({n,e:e.id,titre:t[e.id]||"Tableau sans titre"})); }
+function aggTab(n,eid,ids){ const L=(ids||raterIds()).map(r=>tabFor(r,n,eid)).filter(Boolean); return L.length?{gl:avg(L.map(s=>s.gl)),ch:avg(L.map(s=>s.ch)),ps:avg(L.map(s=>s.ps)),da:avg(L.map(s=>s.da)),k:L.length}:null; }
+function allTableaux(ids){ const L=[]; for(let n=1;n<=S.params.nb;n++) tableauxOf(n).forEach(t=>{ const a=aggTab(t.n,t.e,ids); L.push(Object.assign(t,{a,v:a?a.gl:null})); });
+  return L.sort((x,y)=>(num(y.v)?y.v:-1)-(num(x.v)?x.v:-1)); }
+
+/* ---------- Battle ---------- */
+function battleVote(r,n){ const x=notesOf(r); return (x.b && x.b[n]) || null; }
+function battleSummary(n,ids){
+  ids=ids||allIds(); const pr=S.primes["p"+n]||{}, comp=(pr.battle||[]).filter(e=>S.eleves.some(x=>x.id===e));
+  const rows=comp.map(e=>({e,voters:ids.filter(r=>battleVote(r,n)===e)})).map(x=>Object.assign(x,{votes:x.voters.length}));
+  const total=rows.reduce((a,x)=>a+x.votes,0), max=Math.max(0,...rows.map(x=>x.votes));
+  return {comp,rows,total,winners:total?rows.filter(x=>x.votes===max).map(x=>x.e):[],profs:pr.battleWin||"",mine:battleVote(S.me.id,n)};
+}
+
+/* ---------- Pronostics ---------- */
+function pronoOf(r,w){ const x=notesOf(r); return (x.pr && x.pr[w]) || null; }
+function curWeek(){ if(S.week) return S.week; let w=1; for(let n=1;n<=S.params.nb;n++){ const pr=S.primes["p"+n]; if(S.prestas.some(p=>p.prime===n)||(pr&&pr.theme)) w=n; } return w; }
+const officialWinner = () => (S.eleves.find(e=>(e.statut||"").startsWith("Gagn"))||{}).id || "";
+
 /* ---------- Données : persistance ---------- */
 function persistLocal(){
-  try{ localStorage.setItem(LOCAL_KEY,JSON.stringify({eleves:S.eleves,params:S.params,primes:S.primes,prestas:S.prestas,mine:S.mine})); }catch(e){}
+  try{ localStorage.setItem(LOCAL_KEY,JSON.stringify({eleves:S.eleves,params:S.params,primes:S.primes,prestas:S.prestas,mine:S.mine,tournee:S.tournee})); }catch(e){}
 }
 function loadLocal(){
   S.me={id:"moi",name:"",avatarUrl:"",color:""};
   try{
     const d=JSON.parse(localStorage.getItem(LOCAL_KEY)||"null");
-    if(d){ S.eleves=d.eleves||[]; S.params=Object.assign({},DEF_PARAMS,d.params||{}); S.primes=d.primes||{}; S.prestas=d.prestas||[]; S.mine=Object.assign(emptyMine(),d.mine||{}); }
+    if(d){ S.eleves=d.eleves||[]; S.params=Object.assign({},DEF_PARAMS,d.params||{}); S.primes=d.primes||{}; S.prestas=d.prestas||[]; S.mine=Object.assign(emptyMine(),d.mine||{}); S.tournee=d.tournee||[]; }
   }catch(e){}
   S.notes={moi:S.mine};
 }
@@ -406,6 +435,7 @@ async function sharedWrite(fn){
   catch(e){ if(e&&e.code==="unavailable"){ try{ await new Promise(r=>setTimeout(r,600+Math.random()*600)); await fn(); return true; }catch(e2){ writeFailed(e2); return false; } } writeFailed(e); return false; }
 }
 function saveEleves(list){ S.eleves=list; render(); return sharedWrite(()=>S.db.doc("saison/eleves").set({list})); }
+function saveTournee(list){ S.tournee=list; render(); return sharedWrite(()=>S.db.doc("saison/tournee").set({list})); }
 function saveParams(p){ S.params=Object.assign({},S.params,p); render(); return sharedWrite(()=>S.db.doc("saison/params").set(S.params)); }
 function savePrime(n,data){
   const cur=S.primes["p"+n]||{}; const next=Object.assign({},cur,data,{num:n}); S.primes["p"+n]=next; render();
@@ -454,6 +484,7 @@ function start(){
   S.me={id:myId,name:""};
   const err = e => { S.dbError = e && e.code==="permission-denied" ? "Accès à la base refusé : vérifie les règles Firestore (étape 4 du guide)." : "Connexion à la base impossible pour le moment."; render(); };
   db.doc("saison/eleves").onSnapshot(s=>{ S.eleves = s.exists ? ((s.data()||{}).list||[]) : []; render(); }, err);
+  db.doc("saison/tournee").onSnapshot(s=>{ S.tournee = s.exists ? ((s.data()||{}).list||[]) : []; render(); }, err);
   db.doc("saison/params").onSnapshot(s=>{ if(s.exists) S.params=Object.assign({},DEF_PARAMS,s.data()); render(); }, err);
   db.collection("primes").onSnapshot(q=>{ const o={}; q.docs.forEach(d=>o[d.id]=d.data()); S.primes=o; render(); }, err);
   db.collection("prestations").onSnapshot(q=>{ S.prestas=q.docs.map(d=>Object.assign({id:d.id},d.data())); render(); }, err);
@@ -511,7 +542,8 @@ const ICONS = {
   jury:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.4 2 5 5"/></svg>',
   set:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'
 };
-const TABS=[["prime","Prime"],["rank","Classement"],["nights","Soirées"],["jury","Jury"],["set","Réglages"]];
+ICONS.pronos='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="7.5"/><path d="M8.5 9.5a4 4 0 0 1 3.5-2.5"/><path d="M6 21h12M8.5 18.5l-1 2.5M15.5 18.5l1 2.5"/></svg>';
+const TABS=[["prime","Prime"],["rank","Classement"],["nights","Soirées"],["pronos","Pronos"],["jury","Jury"],["set","Réglages"]];
 
 function render(){
   const act=document.activeElement;
@@ -525,7 +557,7 @@ function render(){
   const v=$("#view");
   if(S.mode==="loading"){ v.innerHTML=`<div class="empty" style="margin-top:40px"><p>Ouverture du carnet de notes…</p></div>`; return; }
   if(S.mode==="online" && !S.me.id){ $("#tabs").innerHTML=""; v.innerHTML=viewWho(); return; }
-  const fn={prime:viewPrime,rank:viewRank,nights:viewNights,jury:viewJury,set:viewSet}[S.tab];
+  const fn={prime:viewPrime,rank:viewRank,nights:viewNights,pronos:viewPronos,jury:viewJury,set:viewSet}[S.tab];
   v.innerHTML=fn()+(S.dbError?`<div class="banner">${esc(S.dbError)}</div>`:"")+(S.mode==="local"?`<div class="banner">Mode test : la base de données n'est pas encore configurée, les notes restent sur cet appareil. Suis le guide d'installation pour noter à plusieurs.</div>`:"");
 }
 
@@ -580,6 +612,37 @@ function viewPrime(){
     });
     h+=`</div>`;
     if(S.canWrite) h+=`<div style="margin-top:14px"><button class="btn primary block" data-act="new-presta">Ajouter une prestation</button></div>`;
+  }
+
+  /* tableaux chantés-dansés */
+  const tabs=tableauxOf(n);
+  h+=`<h2 class="sec">Tableaux chantés-dansés</h2>`;
+  if(!tabs.length){
+    h+=`<p class="hint">Pas de tableau renseigné pour ce prime. Ajoute-les dans « Infos et nommés » s'il y en a.</p>`;
+  } else {
+    h+=`<p class="hint">Notés à part, sur les mêmes critères, pour établir le classement des tableaux.</p><div class="card">`;
+    const scored=tabs.map(t=>({t,v:(aggTab(n,t.e,allIds())||{}).gl})).filter(x=>num(x.v)).sort((a,b)=>b.v-a.v);
+    tabs.forEach((t,i)=>{ const m=tabFor(S.me.id,n,t.e), a=aggTab(n,t.e,allIds()), top=scored.length>1&&a&&Math.abs(a.gl-scored[0].v)<1e-9;
+      h+=`<button class="nomi rowbtn" data-tabl="${esc(t.e)}" style="${i<tabs.length-1?"border-bottom:1px solid var(--line)":""}"><div><b>${esc(eleveName(t.e))}</b>${top?`<span class="badge win">meilleur tableau</span>`:""}<div class="p-sub">${esc(t.titre)}</div></div>
+        <div class="scores">${m?`<span class="lbl">Toi</span>${noteEl(m.gl)}`:`<span class="todo">À noter</span>`}${a&&allIds().length>1?`<span class="lbl">Jury ${fmt(a.gl)}</span>`:""}</div></button>`; });
+    h+=`</div>`;
+  }
+
+  /* battle */
+  const bs=battleSummary(n);
+  if(bs.comp.length){
+    h+=`<h2 class="sec">Le battle</h2><p class="hint">Les meilleurs aux évaluations s'affrontent : vote pour celui ou celle qui mérite de gagner selon toi.</p><div class="card">`;
+    bs.rows.forEach((x,i)=>{ const me=bs.mine===x.e;
+      h+=`<div class="nomi" style="${i<bs.rows.length-1?"border-bottom:1px solid var(--line)":""}"><div><b>${esc(eleveName(x.e))}</b>${bs.profs===x.e?`<span class="badge win">choix des profs</span>`:""}
+        <div class="p-sub">${plural(x.votes,"voix")}${x.voters.length?" · "+x.voters.map(r=>esc(raterFirst(r))).join(", "):""}</div></div>
+        <button class="btn ${me?"primary":""} vote-btn" data-bvote="${esc(x.e)}" aria-pressed="${me}">${me?"Mon vote ★":"Voter"}</button></div>`; });
+    h+=`</div>`;
+    if(bs.winners.length||bs.profs){
+      const jw=bs.winners.map(e=>esc(eleveName(e))).join(" et ");
+      let t=bs.winners.length?`Pour le jury, ${bs.winners.length>1?`égalité entre <b>${jw}</b>`:`<b>${jw}</b> mérite de gagner`} (${plural(bs.total,"vote")}).`:"Le jury n'a pas encore voté.";
+      if(bs.profs) t+=`<br>Les professeurs ont choisi <b>${esc(eleveName(bs.profs))}</b>.${bs.winners.length?(bs.winners.length===1&&bs.winners[0]===bs.profs?" Le jury est d'accord.":bs.winners.includes(bs.profs)?" Leur choix fait partie des favoris du jury.":" Le jury n'est pas d'accord."):""}`;
+      h+=`<div class="verdict">${t}</div>`;
+    }
   }
 
   /* nommés */
@@ -641,7 +704,8 @@ function viewPrime(){
 
 function matrix(n){
   const list=prestasOf(n);
-  const ids=juryOrder(allIds()).filter(r=>list.some(p=>num(prestaFor(r,p)))||num(primeFor(r,n)));
+  const tl=tableauxOf(n);
+  const ids=juryOrder(allIds()).filter(r=>list.some(p=>num(prestaFor(r,p)))||num(primeFor(r,n))||tl.some(t=>tabFor(r,n,t.e)));
   if(!ids.length) return `<p class="hint">Les notes du jury s'afficheront ici dès les premières notes.</p>`;
   let rows;
   if(S.mx==="presta"){
@@ -654,10 +718,11 @@ function matrix(n){
         all:avg(ps.map(p=>{const a=aggIndiv(p.id,e,ids);return a&&a.gl;}))}; })
       .sort((a,b)=>(num(b.all)?b.all:-1)-(num(a.all)?a.all:-1));
   }
+  tl.forEach(t=>rows.push({label:"Tableau · "+eleveName(t.e),sub:t.titre,cells:ids.map(r=>{const x=tabFor(r,n,t.e);return x&&x.gl;}),all:(aggTab(n,t.e,ids)||{}).gl,tab:true}));
   rows.push({label:"La soirée",sub:"note du bilan",cells:ids.map(r=>primeFor(r,n)),all:aggPrime(n,ids),soir:true});
   let h=`<div class="seg-in" role="group" aria-label="Affichage"><button data-mx="presta" aria-pressed="${S.mx==="presta"}">Par prestation</button><button data-mx="eleve" aria-pressed="${S.mx==="eleve"}">Par élève</button></div>`;
   h+=`<div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">${S.mx==="presta"?"Prestation":"Élève"}</th>${ids.map(r=>`<th scope="col">${esc(raterFirst(r))}</th>`).join("")}${ids.length>1?`<th scope="col">Jury</th>`:""}</tr></thead><tbody>`;
-  rows.forEach(r=>{ h+=`<tr class="${r.soir?"soir":""}"><td>${esc(r.label)}<small>${esc(r.sub)}</small></td>${r.cells.map(v=>`<td>${num(v)?noteEl(v):`<span class="dash">·</span>`}</td>`).join("")}${ids.length>1?`<td class="all">${noteEl(r.all)}</td>`:""}</tr>`; });
+  rows.forEach(r=>{ h+=`<tr class="${r.soir?"soir":r.tab?"tabrow":""}"><td>${esc(r.label)}<small>${esc(r.sub)}</small></td>${r.cells.map(v=>`<td>${num(v)?noteEl(v):`<span class="dash">·</span>`}</td>`).join("")}${ids.length>1?`<td class="all">${noteEl(r.all)}</td>`:""}</tr>`; });
   return h+`</tbody></table></div>`;
 }
 
@@ -679,7 +744,10 @@ function statutBadge(s){ if(!s||s==="En lice") return ""; const c=s.startsWith("
 function weightsText(){ const w=S.params,t=(+w.wC)+(+w.wP)+(+w.wD)||1; return `chant ${Math.round(w.wC/t*100)} %, présence ${Math.round(w.wP/t*100)} %, danse ${Math.round(w.wD/t*100)} %`; }
 
 function viewRank(){
-  let h=`<section class="marquee"><h1>Classement</h1><p class="meta">Moyenne de toutes les prestations notées, pondérée ${weightsText()}. Les notes des nommés sont à part.</p></section>`;
+  let h=`<section class="marquee"><h1>Classement</h1></section>`;
+  h+=`<div class="seg-in" role="group" aria-label="Classement"><button data-rk="eleves" aria-pressed="${S.rk==="eleves"}">Élèves</button><button data-rk="tableaux" aria-pressed="${S.rk==="tableaux"}">Tableaux chantés-dansés</button></div>`;
+  if(S.rk==="tableaux") return h+viewRankTableaux();
+  h+=`<p class="meta" style="margin:0">Moyenne de toutes les prestations notées, pondérée ${weightsText()}. Les nommés et les tableaux sont notés à part.</p>`;
   h+=filterBar();
   const R=ranking();
   if(!R.length) return h+`<div class="empty"><p>Ajoute les élèves pour voir le classement.</p></div>`;
@@ -697,6 +765,95 @@ function viewRank(){
   return h+`</div>`;
 }
 
+function viewRankTableaux(){
+  let h=`<p class="meta" style="margin:0">Tous les tableaux de la saison, du mieux noté au moins bien noté.</p>`+filterBar();
+  const L=allTableaux(raterIds());
+  if(!L.length) return h+`<div class="empty"><p>Les tableaux chantés-dansés apparaîtront ici une fois renseignés dans les infos d'un prime.</p></div>`;
+  h+=`<div class="card">`;
+  L.forEach((t,i)=>{ const rk=num(t.v)?1+L.filter(x=>num(x.v)&&x.v>t.v+1e-9).length:0;
+    h+=`<button class="rank" data-goprime="${t.n}" style="${i<L.length-1?"border-bottom:1px solid var(--line)":""}"><span class="rk ${num(t.v)&&rk===1?"r1":""}">${num(t.v)?rk:"–"}</span>
+      <span><span class="r-name">${esc(eleveName(t.e))}</span><span class="badge">P${t.n}</span><span class="p-sub">${esc(t.titre)}</span>
+      <span class="r-bars"><span>Chant <i>${fmt(t.a&&t.a.ch)}</i></span><span>Présence <i>${fmt(t.a&&t.a.ps)}</i></span><span>Danse <i>${fmt(t.a&&t.a.da)}</i></span></span></span>
+      <span class="r-right">${noteEl(t.v)}</span></button>`; });
+  h+=`</div>`;
+  const sc=L.filter(t=>num(t.v)), top=sc.length?sc.filter(t=>Math.abs(t.v-sc[0].v)<1e-9):[];
+  if(top.length) h+=`<div class="verdict">${top.length>1?"Meilleurs tableaux de la saison (ex æquo)":"Meilleur tableau de la saison"} : ${top.map(t=>`<b>${esc(eleveName(t.e))}</b> avec « ${esc(t.titre)} » (prime ${t.n})`).join(", ")}, ${fmt(top[0].v)}.</div>`;
+  return h;
+}
+
+/* ---------- Pronostics ---------- */
+function viewPronos(){
+  const w=curWeek(), off=S.tournee.filter(e=>S.eleves.some(x=>x.id===e)), known=off.length>0;
+  let h=`<div class="strip" role="group" aria-label="Choisir la semaine">`;
+  for(let i=1;i<=S.params.nb;i++){ const has=allIds().some(r=>pronoOf(r,i)); h+=`<button class="chip-p ${has?"has":""}" data-week="${i}" aria-pressed="${i===w}">S${i}</button>`; }
+  h+=`</div><section class="marquee"><h1>Pronos <span>S${w}</span></h1><p class="meta">${known?"La tournée est connue : il ne reste plus qu'à pronostiquer le vainqueur.":"Chaque semaine, choisis les 9 élèves que tu vois partir en tournée et celui ou celle que tu vois gagner."}</p></section>`;
+  if(!S.eleves.length) return h+`<div class="empty"><p>Ajoute d'abord les élèves dans Réglages.</p></div>`;
+  const mine=pronoOf(S.me.id,w)||{}, tour=mine.tour||[];
+  const pool=known?off:S.eleves.filter(e=>!(e.statut||"").startsWith("Élim")||tour.includes(e.id)||mine.win===e.id).map(e=>e.id);
+  h+=`<h2 class="sec">Mes pronos de la semaine ${w}</h2><div class="card" style="padding:14px 16px">`;
+  if(!known){
+    h+=`<div class="field"><span>En tournée (${tour.length}/9)</span><div class="pick">${pool.map(e=>`<button type="button" data-ptour="${esc(e)}" aria-pressed="${tour.includes(e)}">${esc(eleveName(e))}</button>`).join("")}</div></div>`;
+  }
+  h+=`<div class="field" style="margin-bottom:0"><span>Vainqueur de la saison</span><div class="pick">${pool.map(e=>`<button type="button" data-pwin="${esc(e)}" aria-pressed="${mine.win===e}">${esc(eleveName(e))}</button>`).join("")}</div></div>`;
+  let prev=null; for(let i=w-1;i>=1;i--){ if(pronoOf(S.me.id,i)){ prev=i; break; } }
+  if(!pronoOf(S.me.id,w) && prev) h+=`<button class="btn block" style="margin-top:12px" data-act="copy-prono" data-from="${prev}">Reprendre mes pronos de la semaine ${prev}</button>`;
+  h+=`</div>`;
+
+  /* pronos du jury pour la semaine */
+  const ids=juryOrder(allIds()).filter(r=>pronoOf(r,w)), ow=officialWinner();
+  h+=`<h2 class="sec">Les pronos du jury · semaine ${w}</h2>`;
+  if(!ids.length) h+=`<p class="hint">Personne n'a encore pronostiqué cette semaine.</p>`;
+  else {
+    const wc={}, tc={};
+    ids.forEach(r=>{ const p=pronoOf(r,w); if(p.win) wc[p.win]=(wc[p.win]||0)+1; (p.tour||[]).forEach(e=>tc[e]=(tc[e]||0)+1); });
+    const fav=tally(wc);
+    if(fav) h+=`<div class="verdict">Favori${fav.ks.length>1?"s":""} du jury pour la victoire : <b>${fav.ks.map(k=>esc(eleveName(k))).join(", ")}</b> (${plural(fav.c,"voix")}${fav.ks.length>1?" chacun":""}).</div>`;
+    h+=`<div class="list" style="margin-top:10px">`;
+    ids.forEach(r=>{ const p=pronoOf(r,w), t=p.tour||[], good=known?t.filter(e=>off.includes(e)).length:null;
+      h+=`<article class="card bilan"><div class="bl-head">${avatar(r,30)}<b>${esc(raterName(r))}</b>${known&&t.length?`<span class="badge win" style="margin-left:auto">${good}/${off.length} en tournée</span>`:""}</div>
+        <div class="facts"><span>Vainqueur : <b>${p.win?esc(eleveName(p.win)):"—"}</b>${ow&&p.win===ow?" ✓":""}</span></div>
+        ${t.length?`<div class="names">${t.map(e=>`<span class="nm ${known&&off.includes(e)?"done":""}">${esc(eleveName(e))}</span>`).join("")}</div>`:""}</article>`; });
+    h+=`</div>`;
+    const tk=Object.keys(tc).sort((a,b)=>tc[b]-tc[a]);
+    if(tk.length && !known){
+      h+=`<h2 class="sec">La tournée selon le jury</h2><div class="card">`+tk.map((e,i)=>`<div class="settings-row"><span class="rk ${i<9?"r1":""}" style="width:24px;font-size:14px">${i+1}</span><span class="grow">${esc(eleveName(e))}</span><span class="hint" style="margin:0">${tc[e]}/${ids.length}</span></div>`).join("")+`</div><p class="hint" style="margin-top:6px">Les 9 premiers (en doré) forment la tournée du jury.</p>`;
+    }
+  }
+
+  /* évolution du vainqueur pronostiqué */
+  const weeks=[]; for(let i=1;i<=S.params.nb;i++) if(allIds().some(r=>pronoOf(r,i)&&pronoOf(r,i).win)) weeks.push(i);
+  const all=juryOrder(allIds()).filter(r=>weeks.some(i=>pronoOf(r,i)&&pronoOf(r,i).win));
+  if(weeks.length && all.length){
+    h+=`<h2 class="sec">Évolution du vainqueur pronostiqué</h2><div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">Juré</th>${weeks.map(i=>`<th scope="col">S${i}</th>`).join("")}</tr></thead><tbody>`;
+    all.forEach(r=>{ h+=`<tr><td>${esc(raterName(r))}</td>${weeks.map(i=>{ const p=pronoOf(r,i); return `<td>${p&&p.win?`<span class="wn ${ow&&p.win===ow?"ok":""}">${esc(eleveName(p.win))}</span>`:`<span class="dash">·</span>`}</td>`; }).join("")}</tr>`; });
+    h+=`</tbody></table></div>`;
+  }
+
+  /* résultat officiel */
+  h+=`<h2 class="sec">Résultat officiel de la tournée</h2>`;
+  h+=known?`<div class="card" style="padding:14px 16px"><div class="names" style="margin:0">${off.map(e=>`<span class="nm done">${esc(eleveName(e))}</span>`).join("")}</div></div>`:`<p class="hint">Dès que la production annonce les élèves qui partent en tournée, renseigne-les ici : les pronos se limiteront alors au vainqueur.</p>`;
+  if(S.canWrite) h+=`<div style="margin-top:10px"><button class="btn" data-act="edit-tournee">${known?"Modifier la liste officielle":"Saisir les élèves de la tournée"}</button></div>`;
+  return h;
+}
+function openTourneeForm(){
+  const sel=S.tournee.slice();
+  let h=`<div class="sh-head"><div><h3>Élèves de la tournée</h3><p>Liste officielle, partagée avec tout le jury</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
+  <div class="field"><span id="otc">${sel.length} sélectionné${sel.length>1?"s":""} (9 attendus)</span><div class="pick">${S.eleves.map(e=>`<button type="button" data-otour="${esc(e.id)}" aria-pressed="${sel.includes(e.id)}">${esc(e.name)}</button>`).join("")}</div></div>
+  <p class="hint">Laisse la liste vide tant que la tournée n'est pas annoncée.</p></div><div class="sh-foot"><button class="btn primary" data-act="save-tournee">Enregistrer</button></div>`;
+  openSheet(h,{kind:"tournee"});
+}
+function togglePronoTour(e){
+  const w=curWeek(); S.mine.pr[w]=S.mine.pr[w]||{}; const p=S.mine.pr[w]; p.tour=p.tour||[];
+  if(p.tour.includes(e)) p.tour=p.tour.filter(x=>x!==e);
+  else { if(p.tour.length>=9){ toast("9 élèves maximum pour la tournée."); return; } p.tour.push(e); }
+  mineChanged(); render();
+}
+function setPronoWin(e){
+  const w=curWeek(); S.mine.pr[w]=S.mine.pr[w]||{}; const p=S.mine.pr[w];
+  if(p.win===e) delete p.win; else p.win=e;
+  mineChanged(); render();
+}
+
 function viewNights(){
   let h=`<section class="marquee"><h1>Soirées</h1><p class="meta">Le bilan de chaque prime.</p></section>`+filterBar();
   let any=false; h+=`<div class="list">`;
@@ -712,6 +869,10 @@ function viewNights(){
     if(sm.bestE) f.push(`<span>Élève du prime : <b>${esc(eleveName(sm.bestE.e))}</b> (${fmt(sm.bestE.v)})</span>`);
     if(sm.worstE) f.push(`<span>Plus mauvais prime : <b>${esc(eleveName(sm.worstE.e))}</b> (${fmt(sm.worstE.v)})</span>`);
     if(sm.favE) f.push(`<span>Coup de cœur : <b>${sm.favE.ks.map(k=>esc(eleveName(k))).join(", ")}</b></span>`);
+    const bt=allTableaux(raterIds()).filter(t=>t.n===n&&num(t.v));
+    if(bt.length) f.push(`<span>Meilleur tableau : <b>${esc(eleveName(bt[0].e))}</b> (${fmt(bt[0].v)})</span>`);
+    const bs=battleSummary(n,raterIds());
+    if(bs.winners.length||bs.profs) f.push(`<span>Battle : jury <b>${bs.winners.length?bs.winners.map(e=>esc(eleveName(e))).join(", "):"—"}</b>${bs.profs?` · profs <b>${esc(eleveName(bs.profs))}</b>`:""}</span>`);
     if(ns.verdict) f.push(`<span>Le jury voulait voir partir : <b>${esc(eleveName(ns.verdict.e))}</b></span>`);
     if(pr.elimine) f.push(`<span>Éliminé·e : <b>${esc(eleveName(pr.elimine))}</b></span>`);
     h+=`<article class="card nightrow"><button class="nightnum" data-goprime="${n}" aria-label="Ouvrir le prime ${n}">P${n}</button><div class="facts">${f.join("")}</div><span style="text-align:center"><span class="lbl">Soirée</span><br>${noteEl(sm.soiree)}</span></article>`;
@@ -847,9 +1008,24 @@ function openBilan(n){
   openSheet(h,{kind:"bilan",n});
 }
 
+function openTab(n,tab){
+  const tabs=tableauxOf(n); if(!tabs.length) return;
+  const T=tabs.map(t=>({k:t.e,label:eleveName(t.e)})), cur=tab||T[0].k, t=tabs.find(x=>x.e===cur)||tabs[0];
+  const c=(S.mine.tb[n]&&S.mine.tb[n][cur])||{}, s=subs(c);
+  let h=`<div class="sh-head"><div><h3>Tableaux du prime ${n}</h3><p>Tableaux chantés-dansés, notés à part</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div>`;
+  h+=segTabs(T,cur,k=>!!tabFor(S.me.id,n,k))+`<div class="sh-body">`;
+  h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${esc(eleveName(cur))}</div><div class="p-sub" style="margin:0 0 4px">${esc(t.titre)}</div><div class="subs">${subsLine(s)}</div></div></div>`;
+  h+=critBlock(c);
+  const others=juryOrder(allIds()).filter(r=>r!==S.me.id&&tabFor(r,n,cur));
+  if(others.length) h+=`<h4 style="margin:6px 0 8px;font-size:14px">Les notes du jury</h4>`+others.map(r=>{const x=tabFor(r,n,cur);return `<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>${esc(raterName(r))}</b>Chant ${fmt(x.ch)} · Présence ${fmt(x.ps)} · Danse ${fmt(x.da)}</span>${noteEl(x.gl)}</div>`;}).join("");
+  h+=`</div>`+nextFoot(T,cur);
+  openSheet(h,{kind:"tab",n,tab:cur});
+}
+
 function currentCritObj(create){
   const {kind,pid,tab,n}=sheetCtx||{};
   if(kind==="bilan") return bilanObj(n,create);
+  if(kind==="tab"){ if(create){ S.mine.tb[n]=S.mine.tb[n]||{}; S.mine.tb[n][tab]=S.mine.tb[n][tab]||{}; } return S.mine.tb[n]&&S.mine.tb[n][tab]; }
   if(kind==="nomi"){ const o=nomiObj(n,create); if(!o) return null; if(create) o.e[tab]=o.e[tab]||{}; return o.e&&o.e[tab]; }
   if(kind!=="rate") return null;
   if(tab==="__ens"){ if(create && !S.mine.e[pid]) S.mine.e[pid]={}; return S.mine.e[pid]; }
@@ -920,28 +1096,41 @@ function savePrestaForm(){
 /* formulaire soirée + nommés */
 function openPrimeForm(n){
   const pr=S.primes["p"+n]||{};
+  const active=S.eleves.filter(e=>!(e.statut||"").startsWith("Élim")||e.sortie>=n||e.id in (pr.tableaux||{})||(pr.battle||[]).includes(e.id));
   let h=`<div class="sh-head"><div><h3>Infos du prime ${n}</h3></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">
   <label class="field"><span>Date</span><input id="g_date" type="date" value="${esc(pr.date||"")}"></label>
   <label class="field"><span>Thème de la soirée</span><input id="g_theme" value="${esc(pr.theme||"")}" autocomplete="off"></label>
   <label class="field"><span>Artistes invités</span><input id="g_inv" value="${esc(pr.invites||"")}" autocomplete="off"></label>
-  <div class="field"><span>Élèves nommés</span><div class="pick">${S.eleves.filter(e=>!(e.statut||"").startsWith("Élim")||(pr.nommes||[]).includes(e.id)).map(e=>`<button type="button" data-pick="${esc(e.id)}" aria-pressed="${(pr.nommes||[]).includes(e.id)}">${esc(e.name)}</button>`).join("")||`<span class="hint">Aucun élève</span>`}</div></div>
+  <div class="field"><span>Élèves nommés</span><div class="pick" id="g_noms">${S.eleves.filter(e=>!(e.statut||"").startsWith("Élim")||(pr.nommes||[]).includes(e.id)).map(e=>`<button type="button" data-pick="${esc(e.id)}" aria-pressed="${(pr.nommes||[]).includes(e.id)}">${esc(e.name)}</button>`).join("")||`<span class="hint">Aucun élève</span>`}</div></div>
   <div id="songs"></div>
+  <div class="field"><span>Tableaux chantés-dansés de la soirée (élèves concernés)</span><div class="pick" id="g_tabs">${active.map(e=>`<button type="button" data-tpick="${esc(e.id)}" aria-pressed="${e.id in (pr.tableaux||{})}">${esc(e.name)}</button>`).join("")}</div></div>
+  <div id="tabtitles"></div>
+  <div class="field"><span>Battle : élèves en compétition</span><div class="pick" id="g_bat">${active.map(e=>`<button type="button" data-bpick="${esc(e.id)}" aria-pressed="${(pr.battle||[]).includes(e.id)}">${esc(e.name)}</button>`).join("")}</div></div>
+  <label class="field"><span>Gagnant du battle selon les professeurs</span><select id="g_bwin"><option value="">Pas encore connu</option>${S.eleves.map(e=>`<option value="${esc(e.id)}" ${pr.battleWin===e.id?"selected":""}>${esc(e.name)}</option>`).join("")}</select></label>
   <label class="field"><span>Élève éliminé·e</span><select id="g_elim"><option value="">Personne pour l'instant</option>${S.eleves.map(e=>`<option value="${esc(e.id)}" ${pr.elimine===e.id?"selected":""}>${esc(e.name)}</option>`).join("")}</select></label>
   </div><div class="sh-foot"><button class="btn primary" data-act="save-prime">Enregistrer</button></div>`;
-  openSheet(h,{kind:"primeform",n,songs:Object.assign({},pr.nomiSongs||{})});
-  renderSongs();
+  openSheet(h,{kind:"primeform",n,songs:Object.assign({},pr.nomiSongs||{}),titles:Object.assign({},pr.tableaux||{})});
+  renderSongs(); renderTabTitles();
 }
 function renderSongs(){
   const box=$("#songs"); if(!box) return;
   box.querySelectorAll("[data-song]").forEach(i=>sheetCtx.songs[i.dataset.song]=i.value);
-  const sel=[...$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  const sel=[...$("#g_noms").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
   box.innerHTML=sel.map(e=>`<label class="field"><span>Chanson de nomination de ${esc(eleveName(e))}</span><input data-song="${esc(e)}" value="${esc(sheetCtx.songs[e]||"")}" placeholder="Titre – artiste" autocomplete="off"></label>`).join("");
+}
+function renderTabTitles(){
+  const box=$("#tabtitles"); if(!box) return;
+  box.querySelectorAll("[data-ttl]").forEach(i=>sheetCtx.titles[i.dataset.ttl]=i.value);
+  const sel=[...$("#g_tabs").querySelectorAll('[aria-pressed="true"]')].map(b=>b.dataset.tpick);
+  box.innerHTML=sel.map(e=>`<label class="field"><span>Tableau de ${esc(eleveName(e))}</span><input data-ttl="${esc(e)}" value="${esc(sheetCtx.titles[e]||"")}" placeholder="Titre – artiste" autocomplete="off"></label>`).join("");
 }
 async function savePrimeForm(){
   const n=sheetCtx.n, elim=$("#g_elim").value;
-  const nommes=[...$("#sheet").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  const nommes=[...$("#g_noms").querySelectorAll('[data-pick][aria-pressed="true"]')].map(b=>b.dataset.pick);
+  const tableaux={}; [...$("#g_tabs").querySelectorAll('[aria-pressed="true"]')].forEach(b=>{ const i=$("#sheet").querySelector(`[data-ttl="${CSS.escape(b.dataset.tpick)}"]`); tableaux[b.dataset.tpick]=i?i.value.trim():""; });
+  const battle=[...$("#g_bat").querySelectorAll('[aria-pressed="true"]')].map(b=>b.dataset.bpick), battleWin=$("#g_bwin").value;
   const nomiSongs={}; $("#sheet").querySelectorAll("[data-song]").forEach(i=>{ const v=i.value.trim(); if(v) nomiSongs[i.dataset.song]=v; });
-  const data={date:$("#g_date").value,theme:$("#g_theme").value.trim(),invites:$("#g_inv").value.trim(),nommes,nomiSongs,elimine:elim};
+  const data={date:$("#g_date").value,theme:$("#g_theme").value.trim(),invites:$("#g_inv").value.trim(),nommes,nomiSongs,elimine:elim,tableaux,battle,battleWin};
   closeSheet(); await savePrime(n,data);
   if(elim){ const e=S.eleves.find(x=>x.id===elim); if(e && !(e.statut||"").startsWith("Élim")){ saveEleves(S.eleves.map(x=>x.id===elim?Object.assign({},x,{statut:"Éliminé(e)",sortie:n}):x)); } }
   toast("Soirée enregistrée");
@@ -1003,6 +1192,8 @@ function openFiche(id){
   h+=`<h4 style="margin:14px 0 8px;font-size:14px">Ses prestations</h4>`;
   if(!s.rows.length) h+=`<p class="hint">Aucune prestation notée pour l'instant.</p>`;
   h+=s.rows.map(({p,a})=>`<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>Prime ${p.prime} · ${esc(p.type||"")}</b>${esc(p.titre||"")}${p.invite?" (avec "+esc(p.invite)+")":""}</span>${noteEl(a.gl)}</div>`).join("");
+  const tbl=allTableaux(raterIds()).filter(t=>t.e===id).sort((a,b)=>a.n-b.n);
+  if(tbl.length) h+=`<h4 style="margin:14px 0 8px;font-size:14px">Ses tableaux chantés-dansés</h4>`+tbl.map(t=>`<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>Prime ${t.n}</b>${esc(t.titre)}</span>${noteEl(t.v)}</div>`).join("");
   const nomis=[]; for(let n=1;n<=S.params.nb;n++){ const pr=S.primes["p"+n]; if(pr&&(pr.nommes||[]).includes(id)){ const ns=nomiSummary(n,raterIds()); const row=ns.rows.find(x=>x.e===id); nomis.push({n,pr,row}); } }
   if(nomis.length){
     h+=`<h4 style="margin:14px 0 8px;font-size:14px">Ses nominations</h4>`+nomis.map(({n,pr,row})=>`<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>Prime ${n} · ${plural(row.votes,"vote")} pour son départ${pr.elimine===id?" · éliminé·e":""}</b>${esc((pr.nomiSongs||{})[id]||"Chanson non renseignée")}</span>${noteEl(row.v)}</div>`).join("");
@@ -1024,13 +1215,22 @@ document.addEventListener("click",e=>{
   if(d.prime){ S.prime=+d.prime; render(); return; }
   if(d.goprime){ S.prime=+d.goprime; S.tab="prime"; render(); window.scrollTo(0,0); return; }
   if(d.mx){ S.mx=d.mx; render(); return; }
+  if(d.rk){ S.rk=d.rk; render(); return; }
+  if(d.week){ S.week=+d.week; render(); return; }
+  if(d.tabl){ if(!S.me.id){ toast("Choisis d\u2019abord ton prénom."); return; } openTab(S.prime,d.tabl); return; }
+  if(d.bvote){ if(!S.me.id) return; const n=S.prime; if(S.mine.b[n]===d.bvote) delete S.mine.b[n]; else S.mine.b[n]=d.bvote; mineChanged(); render(); return; }
+  if(d.ptour){ if(S.me.id) togglePronoTour(d.ptour); return; }
+  if(d.pwin){ if(S.me.id) setPronoWin(d.pwin); return; }
+  if(d.tpick){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true"); renderTabTitles(); return; }
+  if(d.bpick){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true"); return; }
+  if(d.otour){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true"); const c=$("#sheet").querySelectorAll('[data-otour][aria-pressed="true"]').length; $("#otc").textContent=`${c} sélectionné${c>1?"s":""} (9 attendus)`; return; }
   if(d.open){ openRate(d.open); return; }
   if(d.edit){ openPrestaForm(d.edit); return; }
   if(d.fiche){ openFiche(d.fiche); return; }
   if(d.eleve){ openEleveForm(d.eleve); return; }
   if(d.juror){ chooseJuror(d.juror); return; }
   if(d.rtab){ if(!sheetCtx) return; saveTexts();
-    if(sheetCtx.kind==="rate") openRate(sheetCtx.pid,d.rtab); else if(sheetCtx.kind==="nomi") openNomi(sheetCtx.n,d.rtab);
+    if(sheetCtx.kind==="tab") openTab(sheetCtx.n,d.rtab); else if(sheetCtx.kind==="rate") openRate(sheetCtx.pid,d.rtab); else if(sheetCtx.kind==="nomi") openNomi(sheetCtx.n,d.rtab);
     const b=$("#sheet .sh-body"); if(b) b.scrollTop=0; return; }
   if(d.clear){ clearCrit(d.clear); return; }
   if(d.vote){ singlePick(t,"data-vote",nomiObj(sheetCtx.n,true),"part"); return; }
@@ -1053,6 +1253,9 @@ document.addEventListener("click",e=>{
     case "del-eleve": delEleve(); break;
     case "edit-params": openParams(); break;
     case "save-params": saveParamsForm(); break;
+    case "edit-tournee": openTourneeForm(); break;
+    case "save-tournee": { const l=[...$("#sheet").querySelectorAll('[data-otour][aria-pressed="true"]')].map(b=>b.dataset.otour); closeSheet(); saveTournee(l); toast("Tournée enregistrée"); break; }
+    case "copy-prono": { const w=curWeek(), src=pronoOf(S.me.id,+d.from); if(src){ S.mine.pr[w]=clone(src); mineChanged(); render(); } break; }
     case "new-juror": createJuror(($("#newjur")||{}).value||""); break;
     case "leave-juror": leaveJuror(); break;
     case "rename-juror": openRenameJuror(); break;
