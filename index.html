@@ -326,9 +326,7 @@ function subs(c){
 function raterIds(){ const ids=allIds(); return S.filter==="all" ? ids : ids.filter(i=>i===S.filter); }
 function notesOf(r){ return r===S.me.id ? S.mine : (S.notes[r]||{}); }
 function indivFor(r,pid,eid){ const n=notesOf(r); return subs(n.i && n.i[pid] && n.i[pid][eid]); }
-function ensFor(r,pid){ const n=notesOf(r); const s=subs(n.e && n.e[pid]); return s ? s.gl : null; }
 function prestaFor(r,p){
-  if(p.eleves && p.eleves.length>=2){ const e=ensFor(r,p.id); if(num(e)) return e; }
   return avg((p.eleves||[]).map(e=>{const s=indivFor(r,p.id,e); return s&&s.gl;}));
 }
 function bilanOf(r,n){ const x=notesOf(r); return (x.p && x.p[n]) || null; }
@@ -950,16 +948,16 @@ function nextFoot(tabs,cur){ const idx=tabs.findIndex(t=>t.k===cur), next=tabs[i
 /* notation d'une prestation */
 function openRate(pid,tab){
   const p=prestaById(pid); if(!p) return;
-  const el=p.eleves||[], group=el.length>=2;
-  const tabs=el.map(e=>({k:e,label:eleveName(e)})); if(group) tabs.push({k:"__ens",label:"Ensemble"});
+  const el=p.eleves||[];
+  const tabs=el.map(e=>({k:e,label:eleveName(e)}));
   if(!tabs.length){ toast("Ajoute d'abord les élèves de cette prestation."); return; }
   const cur=tab||tabs[0].k;
   let h=`<div class="sh-head"><div><h3>${esc(p.titre||"Prestation")}</h3><p>${esc(p.artiste||"")}${p.invite?" · avec "+esc(p.invite):""} · Prime ${p.prime}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div>`;
-  h+=segTabs(tabs,cur,k=>k==="__ens"?num(ensFor(S.me.id,pid)):!!indivFor(S.me.id,pid,k));
+  h+=segTabs(tabs,cur,k=>!!indivFor(S.me.id,pid,k));
   h+=`<div class="sh-body" id="rbody">`;
-  const c = cur==="__ens" ? (S.mine.e[pid]||{}) : ((S.mine.i[pid]&&S.mine.i[pid][cur])||{});
+  const c = (S.mine.i[pid]&&S.mine.i[pid][cur])||{};
   const s=subs(c);
-  h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${cur==="__ens"?"La prestation dans son ensemble":esc(eleveName(cur))}</div><div class="subs">${subsLine(s)}</div></div></div>`;
+  h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${esc(eleveName(cur))}</div><div class="subs">${subsLine(s)}</div></div></div>`;
   h+=critBlock(c);
   h+=`<div class="field" style="margin-top:16px"><span>Ton avis sur la prestation</span><textarea id="avis" maxlength="400" placeholder="Un frisson, une fausse note, un moment fort…">${esc(S.mine.c[pid]||"")}</textarea></div>`;
   const others=juryOrder(allIds()).filter(r=>r!==S.me.id && ((S.notes[r].c&&S.notes[r].c[pid]) || num(prestaFor(r,p))));
@@ -1028,7 +1026,6 @@ function currentCritObj(create){
   if(kind==="tab"){ if(create){ S.mine.tb[n]=S.mine.tb[n]||{}; S.mine.tb[n][tab]=S.mine.tb[n][tab]||{}; } return S.mine.tb[n]&&S.mine.tb[n][tab]; }
   if(kind==="nomi"){ const o=nomiObj(n,create); if(!o) return null; if(create) o.e[tab]=o.e[tab]||{}; return o.e&&o.e[tab]; }
   if(kind!=="rate") return null;
-  if(tab==="__ens"){ if(create && !S.mine.e[pid]) S.mine.e[pid]={}; return S.mine.e[pid]; }
   if(create){ S.mine.i[pid]=S.mine.i[pid]||{}; S.mine.i[pid][tab]=S.mine.i[pid][tab]||{}; }
   return S.mine.i[pid]&&S.mine.i[pid][tab];
 }
