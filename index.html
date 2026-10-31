@@ -252,6 +252,19 @@ button.nightnum{background:none;border:0;padding:0}
 .step.s3 .blk{height:52px;background:color-mix(in srgb,var(--violet2) 60%,var(--surface2))}
 .step.s1 b{font-family:var(--display);font-size:17px}
 .tiles.awards .tile b{font-size:16px}
+.dt-h{margin:16px 0 8px;font-size:14px;font-weight:700}
+.dt .mx td,.dt .mx th{padding:7px 6px}
+.dt .mx th:first-child,.dt .mx td:first-child{min-width:84px}
+.mx tr.me td{background:color-mix(in srgb,var(--violet) 8%,var(--surface))}
+.mx-link{border:0;background:none;padding:0;text-align:left;font:inherit;font-weight:600;color:inherit;display:block;width:100%}
+.mx-link small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.mx-more{display:block;font-size:11px;font-weight:700;color:var(--violet);margin-top:2px}
+.cell-link{border:0;background:none;padding:0}
+.votes{padding:4px 0}
+.vrow{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line)}
+.vrow:last-child{border-bottom:0}
+.vrow .grow{flex:1;font-weight:600}
+.nm.out-nm{background:var(--low-bg);color:var(--low)}
 </style>
 </head>
 <body>
@@ -389,14 +402,15 @@ function primeSummary(n,ids){
   ids.forEach(r=>{ const b=bilanOf(r,n); if(!b) return;
     if(b.fe && S.eleves.some(x=>x.id===b.fe)) fe[b.fe]=(fe[b.fe]||0)+1;
     if(b.fp && favLabel(n,b.fp)) fp[b.fp]=(fp[b.fp]||0)+1; });
-  return {pr,els,bestP:pr[0]||null,worstP:pr.length>1?pr[pr.length-1]:null,bestE:els[0]||null,worstE:els.length>1?els[els.length-1]:null,
+  return {pr,els,bestP:pr[0]||null,worstP:pr.length>1&&pr[pr.length-1].v<pr[0].v-1e-9?pr[pr.length-1]:null,bestE:els[0]||null,worstE:els.length>1&&els[els.length-1].v<els[0].v-1e-9?els[els.length-1]:null,
     favE:tally(fe),favP:tally(fp),soiree:aggPrime(n,ids),moy:avg(pr.map(x=>x.v))};
 }
 function nomiSummary(n,ids){
   ids=ids||allIds(); const pr=S.primes["p"+n]||{}, noms=pr.nommes||[];
   const rows=noms.map(e=>{
     const L=ids.map(r=>nomFor(r,n,e)).filter(Boolean);
-    return {e,v:avg(L.map(s=>s.gl)),votes:ids.filter(r=>voteOf(r,n)===e).length,mine:nomFor(S.me.id,n,e)};
+    const voters=juryOrder(ids.filter(r=>voteOf(r,n)===e));
+    return {e,v:avg(L.map(s=>s.gl)),votes:voters.length,voters,mine:nomFor(S.me.id,n,e)};
   });
   const totalVotes=rows.reduce((s,x)=>s+x.votes,0);
   let verdict=null;
@@ -688,6 +702,7 @@ function viewPrime(){
         <div class="p-sub">${plural(x.votes,"voix")}${x.voters.length?" · "+x.voters.map(r=>esc(raterFirst(r))).join(", "):""}</div></div>
         <button class="btn ${me?"primary":""} vote-btn" data-bvote="${esc(x.e)}" aria-pressed="${me}">${me?"Mon vote ★":"Voter"}</button></div>`; });
     h+=`</div>`;
+    if(bs.total) h+=`<h4 class="dt-h" style="margin-top:14px">Qui a voté pour qui</h4>`+voteList(r=>battleVote(r,n),"pas encore voté");
     if(bs.winners.length||bs.profs){
       const jw=bs.winners.map(e=>esc(eleveName(e))).join(" et ");
       let t=bs.winners.length?`Pour le jury, ${bs.winners.length>1?`égalité entre <b>${jw}</b>`:`<b>${jw}</b> mérite de gagner`} (${plural(bs.total,"vote")}).`:"Le jury n'a pas encore voté.";
@@ -708,10 +723,16 @@ function viewPrime(){
       const song=(pr.nomiSongs||{})[x.e];
       h+=`<div class="nomi" style="${i<ns.rows.length-1?"border-bottom:1px solid var(--line)":""}"><div><b>${esc(eleveName(x.e))}</b>${ns.myVote===x.e?`<span class="badge out">ton choix</span>`:""}
         <div class="p-sub">${song?esc(song):"Chanson non renseignée"}</div>
-        <div class="p-sub">${plural(x.votes,"vote")} pour son départ</div></div>
+        <div class="p-sub">${plural(x.votes,"vote")} pour son départ${x.voters.length?" · "+x.voters.map(r=>esc(raterFirst(r))).join(", "):""}</div></div>
         <div class="scores">${x.mine?`<span class="lbl">Toi</span>${noteEl(x.mine.gl)}`:`<span class="todo">À noter</span>`}${num(x.v)&&allIds().length>1?`<span class="lbl">Jury ${fmt(x.v)}</span>`:""}</div></div>`;
     });
     h+=`</div>`;
+    const nids=juryOrder(allIds()).filter(r=>voteOf(r,n)||ns.rows.some(x=>nomFor(r,n,x.e)));
+    if(nids.length){
+      h+=`<h4 class="dt-h" style="margin-top:14px">Qui a voté quoi</h4><div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">Juré</th>${ns.rows.map(x=>`<th scope="col">${esc(eleveName(x.e))}</th>`).join("")}<th scope="col">Doit partir</th></tr></thead><tbody>`+
+        nids.map(r=>{ const v=voteOf(r,n); return `<tr class="${r===S.me.id?"me":""}"><td>${esc(raterName(r))}</td>${ns.rows.map(x=>{ const s=nomFor(r,n,x.e); return `<td>${s?`<button class="cell-link" data-ndetail="${esc(x.e)}">${noteEl(s.gl)}</button>`:`<span class="dash">·</span>`}</td>`; }).join("")}<td>${v?`<span class="nm out-nm">${esc(eleveName(v))}</span>`:`<span class="dash">·</span>`}</td></tr>`; }).join("")+
+        `</tbody></table></div><p class="hint" style="margin-top:6px">Touche une note pour voir le détail chant, présence et danse.</p>`;
+    }
     if(ns.verdict){
       const agree = pr.elimine ? (pr.elimine===ns.verdict.e ? "Le jury avait vu juste." : "Le public n'a pas suivi le jury.") : "";
       h+=`<div class="verdict">Selon le jury, <b>${esc(eleveName(ns.verdict.e))}</b> devrait partir${ns.totalVotes?` (${plural(ns.verdict.votes,"vote")} sur ${ns.totalVotes})`:" (note la plus basse)"}.${pr.elimine?`<br>Éliminé·e ce soir : <b>${esc(eleveName(pr.elimine))}</b>. ${agree}`:""}</div>`;
@@ -753,6 +774,45 @@ function viewPrime(){
   return h;
 }
 
+/* détail des notes : une ligne par juré, chant / présence / danse / note */
+function detailTable(get){
+  const ids=juryOrder(allIds()).map(r=>({r,s:get(r)})).filter(x=>x.s);
+  if(!ids.length) return `<p class="hint" style="margin:0 0 8px">Personne n'a encore noté.</p>`;
+  const avgRow=ids.length>1?{ch:avg(ids.map(x=>x.s.ch)),ps:avg(ids.map(x=>x.s.ps)),da:avg(ids.map(x=>x.s.da)),gl:avg(ids.map(x=>x.s.gl))}:null;
+  return `<div class="mx-wrap dt"><table class="mx"><thead><tr><th scope="col">Juré</th><th scope="col">Chant</th><th scope="col">Présence</th><th scope="col">Danse</th><th scope="col">Note</th></tr></thead><tbody>`+
+    ids.map(x=>`<tr class="${x.r===S.me.id?"me":""}"><td>${esc(raterName(x.r))}</td><td>${fmt(x.s.ch)}</td><td>${fmt(x.s.ps)}</td><td>${fmt(x.s.da)}</td><td>${noteEl(x.s.gl)}</td></tr>`).join("")+
+    (avgRow?`<tr class="soir"><td>Moyenne</td><td>${fmt(avgRow.ch)}</td><td>${fmt(avgRow.ps)}</td><td>${fmt(avgRow.da)}</td><td>${noteEl(avgRow.gl)}</td></tr>`:"")+
+    `</tbody></table></div>`;
+}
+const collSubs = (r,pid) => { const n=notesOf(r); return subs(n.e && n.e[pid]); };
+function prestaDetailBlocks(p){
+  if(isColl(p)) return `<h4 class="dt-h">Note collective${(p.eleves||[]).length?" · "+esc((p.eleves||[]).map(eleveName).join(", ")):""}</h4>`+detailTable(r=>collSubs(r,p.id));
+  return (p.eleves||[]).map(e=>`<h4 class="dt-h">${esc(eleveName(e))}</h4>`+detailTable(r=>indivFor(r,p.id,e))).join("");
+}
+function opinionsBlock(pid){
+  const L=juryOrder(allIds()).filter(r=>notesOf(r).c && notesOf(r).c[pid]);
+  return L.length?`<h4 class="dt-h">Les avis</h4>`+L.map(r=>`<div class="opinion"><b>${esc(raterName(r))}</b>${esc(notesOf(r).c[pid])}</div>`).join(""):"";
+}
+function openPrestaDetail(pid){
+  const p=prestaById(pid); if(!p) return;
+  let h=`<div class="sh-head"><div><h3>${esc(p.titre||"Prestation")}</h3><p>Détail des notes du jury · Prime ${p.prime}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">`;
+  h+=prestaDetailBlocks(p)+opinionsBlock(pid);
+  h+=`</div><div class="sh-foot"><button class="btn" data-act="close">Fermer</button><button class="btn primary" data-open="${esc(pid)}">${num(prestaFor(S.me.id,p))?"Modifier mes notes":"Noter"}</button></div>`;
+  openSheet(h,{kind:"detail"});
+}
+function openNomDetail(n,eid){
+  const song=((S.primes["p"+n]||{}).nomiSongs||{})[eid];
+  let h=`<div class="sh-head"><div><h3>${esc(eleveName(eid))} · nomination</h3><p>${song?esc(song)+" · ":""}Prime ${n}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">`;
+  h+=detailTable(r=>nomFor(r,n,eid))+`</div><div class="sh-foot"><button class="btn" data-act="close">Fermer</button></div>`;
+  openSheet(h,{kind:"detail"});
+}
+function openTabDetail(n,eid){
+  const t=tableauxOf(n).find(x=>x.e===eid); if(!t) return;
+  let h=`<div class="sh-head"><div><h3>Tableau de ${esc(eleveName(eid))}</h3><p>« ${esc(t.titre)} » · Prime ${n}</p></div><button class="x" data-act="close" aria-label="Fermer">✕</button></div><div class="sh-body">`;
+  h+=detailTable(r=>tabFor(r,n,eid))+`</div><div class="sh-foot"><button class="btn" data-act="close">Fermer</button></div>`;
+  openSheet(h,{kind:"detail"});
+}
+
 function matrix(n){
   const list=prestasOf(n);
   const tl=tableauxOf(n);
@@ -760,7 +820,7 @@ function matrix(n){
   if(!ids.length) return `<p class="hint">Les notes du jury s'afficheront ici dès les premières notes.</p>`;
   let rows;
   if(S.mx==="presta"){
-    rows=list.map(p=>({label:p.titre||"Sans titre",sub:(p.eleves||[]).map(eleveName).join(", "),cells:ids.map(r=>prestaFor(r,p)),all:aggPresta(p,ids)}));
+    rows=list.map(p=>({label:p.titre||"Sans titre",sub:(p.eleves||[]).map(eleveName).join(", ")||(isColl(p)?"Note collective":""),cells:ids.map(r=>prestaFor(r,p)),all:aggPresta(p,ids),act:`data-detail="${esc(p.id)}"`}));
   } else {
     const ind=list.filter(p=>!isColl(p));
     const set=[...new Set(ind.flatMap(p=>p.eleves||[]))];
@@ -770,12 +830,12 @@ function matrix(n){
         all:avg(ps.map(p=>{const a=aggIndiv(p.id,e,ids);return a&&a.gl;}))}; })
       .sort((a,b)=>(num(b.all)?b.all:-1)-(num(a.all)?a.all:-1));
   }
-  tl.forEach(t=>rows.push({label:"Tableau · "+eleveName(t.e),sub:t.titre,cells:ids.map(r=>{const x=tabFor(r,n,t.e);return x&&x.gl;}),all:(aggTab(n,t.e,ids)||{}).gl,tab:true}));
+  tl.forEach(t=>rows.push({label:"Tableau · "+eleveName(t.e),sub:t.titre,cells:ids.map(r=>{const x=tabFor(r,n,t.e);return x&&x.gl;}),all:(aggTab(n,t.e,ids)||{}).gl,tab:true,act:`data-tdetail="${esc(t.e)}"`}));
   rows.push({label:"La soirée",sub:"note du bilan",cells:ids.map(r=>primeFor(r,n)),all:aggPrime(n,ids),soir:true});
   let h=`<div class="seg-in" role="group" aria-label="Affichage"><button data-mx="presta" aria-pressed="${S.mx==="presta"}">Par prestation</button><button data-mx="eleve" aria-pressed="${S.mx==="eleve"}">Par élève</button></div>`;
   h+=`<div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">${S.mx==="presta"?"Prestation":"Élève"}</th>${ids.map(r=>`<th scope="col">${esc(raterFirst(r))}</th>`).join("")}${ids.length>1?`<th scope="col">Jury</th>`:""}</tr></thead><tbody>`;
-  rows.forEach(r=>{ h+=`<tr class="${r.soir?"soir":r.tab?"tabrow":""}"><td>${esc(r.label)}<small>${esc(r.sub)}</small></td>${r.cells.map(v=>`<td>${num(v)?noteEl(v):`<span class="dash">·</span>`}</td>`).join("")}${ids.length>1?`<td class="all">${noteEl(r.all)}</td>`:""}</tr>`; });
-  return h+`</tbody></table></div>`;
+  rows.forEach(r=>{ h+=`<tr class="${r.soir?"soir":r.tab?"tabrow":""}"><td>${r.act?`<button class="mx-link" ${r.act}>${esc(r.label)}<small>${esc(r.sub)}</small><span class="mx-more">Détail des notes</span></button>`:`${esc(r.label)}<small>${esc(r.sub)}</small>`}</td>${r.cells.map(v=>`<td>${num(v)?noteEl(v):`<span class="dash">·</span>`}</td>`).join("")}${ids.length>1?`<td class="all">${noteEl(r.all)}</td>`:""}</tr>`; });
+  return h+`</tbody></table></div><p class="hint" style="margin-top:6px">Touche une prestation ou un tableau pour voir le détail chant, présence et danse de chaque juré.</p>`;
 }
 
 function filterBar(){
@@ -1112,9 +1172,9 @@ function openRate(pid,tab){
   h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${coll?"Note collective":esc(eleveName(cur))}</div>${coll&&el.length?`<div class="p-sub" style="margin:0 0 4px">${el.map(e=>esc(eleveName(e))).join(", ")}</div>`:""}<div class="subs">${subsLine(s)}</div></div></div>`;
   h+=critBlock(c);
   h+=`<div class="field" style="margin-top:16px"><span>Ton avis sur la prestation</span><textarea id="avis" maxlength="400" placeholder="Un frisson, une fausse note, un moment fort…">${esc(S.mine.c[pid]||"")}</textarea></div>`;
-  const others=juryOrder(allIds()).filter(r=>r!==S.me.id && ((S.notes[r].c&&S.notes[r].c[pid]) || num(prestaFor(r,p))));
-  if(others.length){
-    h+=`<h4 style="margin:6px 0 8px;font-size:14px">Ce qu'en pense le jury</h4>`+others.map(r=>`<div class="opinion"><b>${esc(raterName(r))} · ${fmt(prestaFor(r,p))}</b>${esc((S.notes[r].c&&S.notes[r].c[pid])||"")}</div>`).join("");
+  if(allIds().some(r=>r!==S.me.id)){
+    h+=`<h4 class="dt-h">Les notes du jury · ${coll?"le groupe":esc(eleveName(cur))}</h4>`+detailTable(r=>coll?collSubs(r,pid):indivFor(r,pid,cur));
+    h+=opinionsBlock(pid);
   }
   h+=`</div>`+nextFoot(tabs,cur);
   openSheet(h,{kind:"rate",pid,tab:cur});
@@ -1122,6 +1182,12 @@ function openRate(pid,tab){
 
 /* notation des nommés */
 function nomiObj(n,create){ if(create){ S.mine.n[n]=S.mine.n[n]||{e:{}}; S.mine.n[n].e=S.mine.n[n].e||{}; } return S.mine.n[n]; }
+function voteList(get,none){
+  const ids=juryOrder(allIds());
+  if(!ids.length) return "";
+  return `<div class="card votes">`+ids.map(r=>{ const v=get(r);
+    return `<div class="vrow">${avatar(r,28)}<span class="grow">${esc(raterName(r))}</span>${v?`<span class="nm done">${esc(eleveName(v))}</span>`:`<span class="hint" style="margin:0">${none}</span>`}</div>`; }).join("")+`</div>`;
+}
 function openNomi(n,tab){
   const pr=S.primes["p"+n]||{}, noms=pr.nommes||[];
   if(!noms.length) return;
@@ -1133,11 +1199,12 @@ function openNomi(n,tab){
   if(cur==="__vote"){
     const ns=nomiSummary(n);
     h+=`<p style="margin:4px 0 12px;font-weight:600">Selon toi, qui doit quitter le château ?</p><div class="pick vote">${ns.rows.map(x=>`<button type="button" data-vote="${esc(x.e)}" aria-pressed="${mine.part===x.e}">${esc(eleveName(x.e))}<small>${x.mine?"ta note "+fmt(x.mine.gl):"pas noté"}</small></button>`).join("")}</div>`;
-    h+=`<p class="hint" style="margin-top:12px">Le verdict du jury s'affiche dans l'onglet Prime, à côté du vrai résultat.</p>`;
+    h+=`<h4 class="dt-h">Les votes du jury</h4>`+voteList(r=>voteOf(r,n),"n'a pas encore voté");
   } else {
     const c=(mine.e&&mine.e[cur])||{}, s=subs(c), song=(pr.nomiSongs||{})[cur];
     h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${esc(eleveName(cur))}</div><div class="p-sub" style="margin:0 0 4px">${song?esc(song):"Chanson de nomination"}</div><div class="subs">${subsLine(s)}</div></div></div>`;
     h+=critBlock(c);
+    if(allIds().some(r=>r!==S.me.id)) h+=`<h4 class="dt-h">Les notes du jury · ${esc(eleveName(cur))}</h4>`+detailTable(r=>nomFor(r,n,cur));
   }
   h+=`</div>`+nextFoot(tabs,cur);
   openSheet(h,{kind:"nomi",n,tab:cur});
@@ -1166,8 +1233,7 @@ function openTab(n,tab){
   h+=segTabs(T,cur,k=>!!tabFor(S.me.id,n,k))+`<div class="sh-body">`;
   h+=`<div class="spot">${ring(s&&s.gl)}<div><div class="who2">${esc(eleveName(cur))}</div><div class="p-sub" style="margin:0 0 4px">${esc(t.titre)}</div><div class="subs">${subsLine(s)}</div></div></div>`;
   h+=critBlock(c);
-  const others=juryOrder(allIds()).filter(r=>r!==S.me.id&&tabFor(r,n,cur));
-  if(others.length) h+=`<h4 style="margin:6px 0 8px;font-size:14px">Les notes du jury</h4>`+others.map(r=>{const x=tabFor(r,n,cur);return `<div class="opinion" style="display:flex;align-items:center;gap:10px"><span style="flex:1"><b>${esc(raterName(r))}</b>Chant ${fmt(x.ch)} · Présence ${fmt(x.ps)} · Danse ${fmt(x.da)}</span>${noteEl(x.gl)}</div>`;}).join("");
+  if(allIds().some(r=>r!==S.me.id)) h+=`<h4 class="dt-h">Les notes du jury · ${esc(eleveName(cur))}</h4>`+detailTable(r=>tabFor(r,n,cur));
   h+=`</div>`+nextFoot(T,cur);
   openSheet(h,{kind:"tab",n,tab:cur});
 }
@@ -1389,7 +1455,10 @@ document.addEventListener("click",e=>{
   if(d.bpick){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true"); renderBatSongs(); return; }
   if(d.fmode){ setFormMode(d.fmode); return; }
   if(d.otour){ t.setAttribute("aria-pressed", t.getAttribute("aria-pressed")==="true"?"false":"true"); const c=$("#sheet").querySelectorAll('[data-otour][aria-pressed="true"]').length; $("#otc").textContent=`${c} sélectionné${c>1?"s":""} (9 attendus)`; return; }
-  if(d.open){ openRate(d.open); return; }
+  if(d.detail){ openPrestaDetail(d.detail); return; }
+  if(d.tdetail){ openTabDetail(S.prime,d.tdetail); return; }
+  if(d.ndetail){ openNomDetail(S.prime,d.ndetail); return; }
+  if(d.open){ if(sheetCtx&&sheetCtx.kind==="detail"){ $("#scrim").hidden=true; sheetCtx=null; } if(!S.me.id){ toast("Choisis d\u2019abord ton prénom."); return; } openRate(d.open); return; }
   if(d.edit){ openPrestaForm(d.edit); return; }
   if(d.fiche){ openFiche(d.fiche); return; }
   if(d.eleve){ openEleveForm(d.eleve); return; }
